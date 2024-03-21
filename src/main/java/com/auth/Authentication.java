@@ -1,6 +1,4 @@
 package com.auth;
-
-import java.util.Scanner;
  
 public class Authentication{
     private String[][]  combination = {{"hello", "pass"}, {"hello2", "pass2"}};
@@ -23,15 +21,5 @@ public class Authentication{
         if (check != true) {
             
         }
-    }
-    public static void main(String[] args){
-        Authentication auth = new Authentication();
-        Scanner sc = new Scanner(System.in);
-        System.out.print("id: ");
-        String id = sc.nextLine();
-        System.out.print("pass :");
-        String pass = sc.nextLine();
-        sc.close();
-        auth.passCheck(id,pass);
     }
 }
