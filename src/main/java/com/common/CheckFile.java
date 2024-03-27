@@ -2,16 +2,15 @@ package com.common;
 import java.io.*;
 
 public class CheckFile {
-    private String filePathAndName;
 
-    public CheckFile(String filePathAndName){
-        this.filePathAndName = filePathAndName;
+
+    public CheckFile(){
     }
 
     File newFile;
 
 
-    public boolean checkFile(String filePathAndName, File newFile){
+    public boolean checkFile( File newFile){
         if (newFile.exists()) {
             return true;
         }
@@ -19,8 +18,8 @@ public class CheckFile {
             return false;
         }
     }
-    public boolean createFile(String filePathAndName, File newFile){
-        boolean success = checkFile(filePathAndName, newFile);
+    public boolean createFile(File newFile){
+        boolean success = checkFile(newFile);
         if(success == false){
             try {
                 newFile.createNewFile();
@@ -29,10 +28,10 @@ public class CheckFile {
             } catch (Exception e) {
                 System.err.println(e);
             }
-            return checkFile(filePathAndName, newFile);
+            return checkFile(newFile);
         }
         else{
-            return false;
+            return false;   //will return false if file already exists
         }
     }
 }
