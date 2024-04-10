@@ -9,7 +9,7 @@ public class CheckFile {
 
     File newFile;
 
-
+    
     public boolean checkFile( File newFile){
         if (newFile.exists()) {
             return true;

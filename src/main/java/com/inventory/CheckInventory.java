@@ -7,6 +7,7 @@ public class CheckInventory {
     File newFile = new File("E:\\PS_project\\JAVA-PROJECT\\src\\main\\java\\com\\inventory\\inventory.json");
     boolean success = filecheck.checkFile(newFile);
     public boolean  anyreturn(){
+        System.out.println(newFile.listFiles());
         return success;
     }
 }
