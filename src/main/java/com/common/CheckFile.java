@@ -6,7 +6,6 @@ public class CheckFile {
 
     public CheckFile(){
     }
-
     File newFile;
 
     
@@ -34,4 +33,5 @@ public class CheckFile {
             return false;   //will return false if file already exists
         }
     }
+    
 }
