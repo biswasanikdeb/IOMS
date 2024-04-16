@@ -1,7 +1,7 @@
 package com.common;
 
 public class PathBuilder { // to build arbitary paths
-    String path;
+    private String path;
 
     public PathBuilder() {
     }
@@ -20,7 +20,7 @@ public class PathBuilder { // to build arbitary paths
                 + "/" + data8 + "/" + data9;
     }
 
-    public String getPath(){
+    public String getPath() {
         return this.path;
     }
 

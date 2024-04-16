@@ -1,25 +1,25 @@
 package com.common;
+
 import java.io.*;
 
 public class CheckFile {
 
-
-    public CheckFile(){
+    public CheckFile() {
     }
+
     File newFile;
 
-    
-    public boolean checkFile( File newFile){
+    public boolean checkFile(File newFile) {
         if (newFile.exists()) {
             return true;
-        }
-        else{
+        } else {
             return false;
         }
     }
-    public boolean createFile(File newFile){
+
+    public boolean createFile(File newFile) {
         boolean success = checkFile(newFile);
-        if(success == false){
+        if (success == false) {
             try {
                 newFile.createNewFile();
                 System.out.println("File Created Successfully");
@@ -28,10 +28,9 @@ public class CheckFile {
                 System.err.println(e);
             }
             return checkFile(newFile);
-        }
-        else{
-            return false;   //will return false if file already exists
+        } else {
+            return false; // will return false if file already exists
         }
     }
-    
+
 }
