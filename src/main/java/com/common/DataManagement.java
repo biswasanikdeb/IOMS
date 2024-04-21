@@ -1,21 +1,40 @@
 package com.common;
 
 import java.io.File;
+import java.io.IOException;
 
 public class DataManagement extends CheckFile {
 
     File newFile;
 
-    public static void deleteData(File file) {
+    public String checkData(File file) throws IOException {
+        String path = "no data found";
+        if (file.exists()) {
+
+            for (File subFile : file.listFiles()) {
+                if (subFile.isDirectory()) {
+                    checkData(subFile);
+                } else if (subFile.isFile()) {
+
+                    path = subFile.getAbsolutePath();
+                    break;
+                }
+
+            }
+        }
+        return path;
+    }
+
+    public static void deleteData(File file) throws IOException {
         for (File subfile : file.listFiles()) {
             if (subfile.isDirectory()) {
-                deleteData(file);
+                deleteData(subfile);
             }
             subfile.delete();
         }
     }
 
-    public void addNewData() {
+    public void addNewData() throws IOException {
         if (newFile.exists()) {
             System.out.println("FIle Already exists");
         } else {
@@ -26,12 +45,18 @@ public class DataManagement extends CheckFile {
 
     public void modifyData(File oldFile, File newFile) {
         boolean isThere = super.checkFile(oldFile);
-
-        if (isThere) {
-            deleteData(oldFile);
+        try{
+            if (isThere) {
+                deleteData(oldFile);
+                newFile.mkdirs();
+            } 
+            else {
+                System.out.println("No Data found");
+            }
         }
-        newFile.mkdirs();
-
+        catch(Exception e){
+            e.printStackTrace();
+        }
     }
 
 }
