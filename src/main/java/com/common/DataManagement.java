@@ -7,7 +7,7 @@ public class DataManagement extends CheckFile {
 
     File newFile;
 
-    public String checkData(File file) throws IOException {
+    public String checkData(File file)  {
         String path = "no data found";
         if (file.exists()) {
 

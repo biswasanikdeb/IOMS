@@ -2,7 +2,7 @@ import com.common.DataManagement;
 import com.common.PathBuilder;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+
 
 import java.io.File;
 
@@ -15,7 +15,8 @@ public class FileCreateAndDeleteTest {
 
     @Test
     public void filecreationtest(){
-        assertEquals('dasadasda',dtm.checkData(newfile));
+       
+        assertEquals("dasdsadasd",dtm.checkData(newfile));
     }
     
 }

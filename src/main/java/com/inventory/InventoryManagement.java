@@ -4,6 +4,7 @@ import com.common.DataManagement;
 import com.common.PathBuilder;
 import com.common.PathToData;
 import java.io.*;
+import java.lang.Exception;
 
 public class InventoryManagement {
     PathBuilder pb;
@@ -22,11 +23,14 @@ public class InventoryManagement {
         if (Dtmanagement.checkFile(fl)==false) {
             try {
                 Dtmanagement.addNewData(fl);
+                return true;
             
             } catch (Exception e) {
-                printStackTrace.e;
+                e.printStackTrace();
             }
+            
         }
+        return false;
         
     }
 
