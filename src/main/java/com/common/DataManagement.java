@@ -34,7 +34,7 @@ public class DataManagement extends CheckFile {
         }
     }
 
-    public void addNewData() throws IOException {
+    public void addNewData(File newFile) throws IOException {
         if (newFile.exists()) {
             System.out.println("FIle Already exists");
         } else {
