@@ -1,7 +1,8 @@
 package com.ioms;
+import com.GUI.*;
 
 public class Main {
     public static void main(String[] args) {
-        System.out.println("Hello world!");
+        SignUp sgn = new SignUp();
     }
 }
