@@ -1,6 +1,8 @@
 package com.newCommon;
 
 import java.io.File;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.util.Scanner;
 
@@ -41,9 +43,8 @@ public class DataManagement {
         
         return data;
     }
-    public void modifyData(){
-        
-
+    public void modifyData(String newData, String OldData, File Datafile){
+        //BufferedReader reader = new BufferedReader(  Datafile)
     }
 
 }
