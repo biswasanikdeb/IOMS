@@ -1,10 +1,12 @@
-package com.newCommon;
+package com.newcommon;
 
 import java.io.File;
+import java.io.FileReader;
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Scanner;
+import java.lang.Exception;
 
 
 
@@ -18,8 +20,8 @@ public class DataManagement {
        
         
         try {
-            newfile.createNewFile();
-            FileWriter writer = new FileWriter(newfile,true);
+            newFile.createNewFile();
+            FileWriter writer = new FileWriter(newFile,true);
             writer.write(data1 + "\t" + data2 + "\n");
             writer.flush();
             writer.close();
@@ -31,20 +33,40 @@ public class DataManagement {
     public String[] readData(File newFile, Scanner sc) { //reads data by line, has to use in a loop
         
         try {
-            while (sc.hasNextLine()) {
+            
             String tempData= sc.nextLine();
             data = tempData.split("\t");
-            }
             
-            sc.close();
+            
+            
         } catch (Exception e) {
             e.printStackTrace();
         }
         
         return data;
     }
-    public void modifyData(String newData, String OldData, File Datafile){
-        BufferedReader reader = new BufferedReader();
+    public void modifyData(String newData, String OldData, File Datafile)throws IOException{
+        File tmpfile = new File("./tempfile.txt");
+        
+        BufferedReader reader = new BufferedReader(new FileReader(Datafile));
+        FileWriter writer = new FileWriter(tmpfile);
+       
+
+        String line ;
+        while ((line =reader.readLine()) != null) {
+            line.replaceAll(OldData, newData);
+            writer.write(line+ System.lineSeparator());
+            
+        }
+        reader.close();
+        writer.close();
+        tmpfile.renameTo(Datafile);
+        Datafile.delete();
+        
+       
+
+
+
     }
 
 }
