@@ -20,8 +20,8 @@ public class DataManagement {
        
         
         try {
-            newfile.createNewFile();
-            FileWriter writer = new FileWriter(newfile,true);
+            newFile.createNewFile();
+            FileWriter writer = new FileWriter(newFile,true);
             writer.write(data1 + "\t" + data2 + "\n");
             writer.flush();
             writer.close();
