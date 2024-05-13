@@ -2,7 +2,7 @@ target/
 .vscode
 *.class
 goal.txt
-
+src/main/java/com/gui/sample
 
 
 
