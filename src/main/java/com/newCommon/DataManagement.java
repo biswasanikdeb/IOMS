@@ -28,6 +28,20 @@ public class DataManagement {
         return len;
     }
 
+    public void addData(int SlNo, String name, String b_price, String s_price, String qty, String data6, File newFile) { // add data to file by tab and new line ----6 data variant
+                                                                                                           
+                                                                                                           
+        try {
+            newFile.createNewFile();
+            FileWriter writer = new FileWriter(newFile, true);
+            writer.write(SlNo + "\t" + name + "\t" + b_price + "\t" + s_price + "\t" + qty +"\t"+data6+ "\n");
+            writer.flush();
+            writer.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     public void addData(int SlNo, String name, String b_price, String s_price, String qty, File newFile) { // add data to file by tab and new line ----5 data variant
                                                                                                            
                                                                                                            
@@ -132,6 +146,22 @@ public class DataManagement {
             while (sc.hasNextLine()) {
                 data = readData(dataFile, sc);
                 if (data[1].equals(name)) {
+                    break;
+                }
+            }
+            sc.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return data;
+    }
+    public String[] checkOldData(String name, File dataFile, int dataPosition) {
+
+        try {
+            Scanner sc = new Scanner(dataFile);
+            while (sc.hasNextLine()) {
+                data = readData(dataFile, sc);
+                if (data[dataPosition].equals(name)) {
                     break;
                 }
             }

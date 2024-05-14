@@ -1,6 +1,7 @@
 package com.gui.tabbedPanels;
 
-import java.awt.FlowLayout;
+import java.awt.BorderLayout;
+
 
 import java.awt.Font;
 import java.awt.event.ActionEvent;
@@ -55,17 +56,17 @@ public class TabbedInventory extends JFrame implements ActionListener {
         };
         jt.setRowSelectionAllowed(true);
         clmModel = jt.getColumnModel();
-        clmModel.getColumn(0).setPreferredWidth(30);
-        clmModel.getColumn(1).setPreferredWidth(200);
-        clmModel.getColumn(2).setPreferredWidth(90);
-        clmModel.getColumn(3).setPreferredWidth(90);
+        clmModel.getColumn(0).setPreferredWidth(20);
+        clmModel.getColumn(1).setPreferredWidth(180);
+        clmModel.getColumn(2).setPreferredWidth(70);
+        clmModel.getColumn(3).setPreferredWidth(70);
         clmModel.getColumn(4).setPreferredWidth(90);
         jt.getTableHeader().setResizingAllowed(false);
         jt.getTableHeader().setReorderingAllowed(false);
 
         js = new JScrollPane(jt);
 
-        panel1 = new JPanel(new FlowLayout());
+        panel1 = new JPanel(new BorderLayout());
         panel1.setSize(900, 600);
 
         panel1.add(js);

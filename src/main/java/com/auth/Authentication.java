@@ -37,7 +37,7 @@ public class Authentication {
 
     public boolean customerVerify() {
         boolean flag = false;
-        File datafile = new File("./customer.txt");
+        File datafile = new File("./user.txt");
 
         try {
             datafile.createNewFile();

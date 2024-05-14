@@ -10,7 +10,7 @@ public class Welcome extends JFrame implements ActionListener {
     private Color color1;
     private JLabel label1, label2, label3;
     private Font f1;
-    private JButton b1, b2, b3, b4, b5;
+    private JButton b1, b2, b4, b5;
     private ImageIcon logo = new ImageIcon("./images/logo.png");
 
     public Welcome() {
@@ -68,15 +68,10 @@ public class Welcome extends JFrame implements ActionListener {
         panel1.add(b2);
         b2.addActionListener(this);
 
-        b3 = new JButton("Bookings");
-        b3.setBounds(40, 236, 150, 50);
-        b3.setFocusable(false);
-        b3.setBackground(Color.lightGray);
-        panel1.add(b3);
-        b3.addActionListener(this);
+        
 
         b4 = new JButton("Customer Info");
-        b4.setBounds(40, 334, 150, 50);
+        b4.setBounds(40, 236, 150, 50);
         b4.setFocusable(false);
         b4.setBackground(Color.lightGray);
         panel1.add(b4);
@@ -98,12 +93,8 @@ public class Welcome extends JFrame implements ActionListener {
     }
 
     public void actionPerformed(ActionEvent ae){
-        if(ae.getSource()==b3){
-            this.setVisible(false);
-            TabbedBooking tb = new TabbedBooking();
-            tb.setVisible(true);
-        }
-        else if (ae.getSource() == b1){
+       
+        if (ae.getSource() == b1){
             this.setVisible(false);
             TabbedInventory ti = new TabbedInventory();
             ti.setVisible(true);

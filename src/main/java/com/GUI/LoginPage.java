@@ -9,7 +9,7 @@ import java.awt.Color;
 import java.awt.Font;
 
 import java.awt.Insets;
-// import java.awt.*;
+
 
 import javax.swing.plaf.basic.BasicButtonUI;
 
@@ -133,7 +133,7 @@ public class LoginPage extends JFrame implements ActionListener {
             } else if (auth.customerVerify()) {
                 JOptionPane.showMessageDialog(this, "Login Succesful");
                 this.setVisible(false);
-                ClientPage clp = new ClientPage();
+                ClientPage clp = new ClientPage(username);
                 clp.setVisible(true);
             } else {
                 JOptionPane.showMessageDialog(this, "UserName or Password Incorrect");
