@@ -1,1 +1,2 @@
-1	aviator	100	500	5
+1	aviator og	150	550	25
+2	Black Flag	550	650	10

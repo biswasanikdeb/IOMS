@@ -314,6 +314,7 @@ public class TabbedOrder extends JFrame implements ActionListener{
                 }
                 label9.setText(Integer.toString(totalPrice));
                 totalPrice =0;
+                totalQty =0;
                 int itemNum = dtm.getLineNumber(new File("./basket.txt"));
                 label10.setText(Integer.toString(itemNum));
                 sc.close();
@@ -344,21 +345,23 @@ public class TabbedOrder extends JFrame implements ActionListener{
 
                 //<<<<<<-----------------------Modify data on order basis--------------------------->>>
                 
-               try {
-                Scanner sc = new Scanner(basketFile);
-                Scanner sc1 = new Scanner(new File("./inventoryFile.txt"));
-                while (sc.hasNextLine()) {
-                    String Data[] = om.readData(basketFile, sc);
-                    String oldData[] =om.checkOldData(Data[1], new File("./inventoryFile.txt"));
-                    int purchaseQty = Integer.parseInt(Data[3]);
-                    int stockQty= Integer.parseInt(oldData[4]);
-                    int remainingStock = stockQty - purchaseQty;
-                    String newQt = Integer.toString(remainingStock);
-                    om.modifyData(null, null, null, newQt, oldData, new File("./inventoryFile.txt"), sc1);
+            //    try {
+            //     Scanner sc = new Scanner(basketFile);
+            //     Scanner sc1 = new Scanner(new File("./inventoryFile.txt"));
+            //     while (sc.hasNextLine()) {
+            //         String Data[] = om.readData(basketFile, sc);
+            //         String oldData[] =om.checkOldData(Data[1], new File("./inventoryFile.txt"));
+            //         int purchaseQty = Integer.parseInt(Data[3]);
+            //         int stockQty= Integer.parseInt(oldData[4]);
+            //         int remainingStock = stockQty - purchaseQty;
+            //         String newQt = Integer.toString(remainingStock);
+            //         om.modifyData(null, null, null, newQt, oldData, new File("./inventoryFile.txt"), sc1);
 
 
-                }
-               } catch (Exception e) {e.printStackTrace();}
+            //     }
+            //     sc.close();
+            //     sc1.close();
+            //    } catch (Exception e) {e.printStackTrace();}
 
 
 
