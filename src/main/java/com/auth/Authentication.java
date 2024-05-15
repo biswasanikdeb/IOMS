@@ -58,6 +58,8 @@ public class Authentication {
         return flag;
     }
 
+
+    //adds customer account
     public boolean addAccount() {
         boolean flag = false;
         try {
