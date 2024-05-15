@@ -14,6 +14,7 @@ public class Authentication {
         this.password = Password;
     }
 
+    // this verifies from the admin data set
     public boolean verify() {
         boolean flag = false;
         try {
@@ -35,6 +36,7 @@ public class Authentication {
         return flag;
     }
 
+    // this verifies from the customer data set
     public boolean customerVerify() {
         boolean flag = false;
         File datafile = new File("./user.txt");
@@ -64,8 +66,8 @@ public class Authentication {
             DataManagement dtm = new DataManagement();
             if (customerVerify() == !true) {
 
-                 dtm.addData(Username, password, datafile);
-                 flag = true;
+                dtm.addData(Username, password, datafile);
+                flag = true;
             }
         } catch (Exception e) {
             System.out.println(e);
@@ -73,6 +75,4 @@ public class Authentication {
         return flag;
     }
 
-    
-    }
-
+}
