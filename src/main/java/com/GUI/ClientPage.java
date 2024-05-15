@@ -49,7 +49,7 @@ public class ClientPage extends JFrame implements ActionListener{
         super.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         super.setLocationRelativeTo(null);
         super.setResizable(false);
-
+        super.setIconImage(logo.getImage());
         DataManagement dtm = new DataManagement();
         dataArray = dtm.checkOldData(username,new File("./customerInfo.txt"), 0);
 

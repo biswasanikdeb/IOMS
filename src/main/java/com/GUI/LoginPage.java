@@ -27,7 +27,7 @@ public class LoginPage extends JFrame implements ActionListener {
 
     public LoginPage() {
         super("Welcome");
-        super.setBounds(600, 300, 900, 600); // (x, y, width, height);
+        super.setBounds(225, 87, 900, 600); // (x, y, width, height);
         super.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         super.setResizable(false);
         super.setIconImage(logo.getImage());

@@ -9,6 +9,7 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.Scanner;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -20,6 +21,7 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
+
 
 import com.gui.Welcome;
 import com.inventory.*;
@@ -35,6 +37,7 @@ public class TabbedInventory extends JFrame implements ActionListener {
     private TableColumnModel clmModel;
     private Font f1;
     private DefaultTableModel DefTM;
+    private ImageIcon logo = new ImageIcon("./images/logo.png");
 
     public TabbedInventory() {
         super("Inventory");
@@ -42,6 +45,8 @@ public class TabbedInventory extends JFrame implements ActionListener {
         super.setLocationRelativeTo(null);// appear the Jframe in center of the frame
         super.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         super.setResizable(false);
+        super.setIconImage(logo.getImage());
+        
 
         // <<<<<<<<<<<<-----------Inventory Show by table part----------------->>>>>>
         tp = new JTabbedPane();

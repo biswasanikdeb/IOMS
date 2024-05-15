@@ -54,6 +54,7 @@ public class TabbedOrder extends JFrame implements ActionListener{
         super.setLocationRelativeTo(null);//appear the Jframe in center of the frame
         super.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         super.setResizable(false);
+        super.setIconImage(logo.getImage());
 
 
 

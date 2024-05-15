@@ -1,0 +1,2 @@
+1	classic black (matte)	500	1	500
+2	classic polarizer	510	1	510

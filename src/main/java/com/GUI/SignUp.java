@@ -19,6 +19,7 @@ import java.awt.*;
 		Color myColor;
 		Font myFont,font2;
 		Cursor c1;
+		private ImageIcon logo = new ImageIcon("./images/logo.png");
 		
 		public SignUp()
 		{
@@ -28,6 +29,7 @@ import java.awt.*;
 			super.setLocationRelativeTo(null);
 			super.setResizable(false);
 			super.setSize(550, 500);
+			super.setIconImage(logo.getImage());
 			
 
 			

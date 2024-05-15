@@ -6,6 +6,7 @@ import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -27,7 +28,7 @@ public class TabbedCustomer extends JFrame implements ActionListener{
     private TableColumnModel clmModel;
     private JScrollPane js;
     private JButton exitButton;
-
+    private ImageIcon logo = new ImageIcon("./images/logo.png");    
 
     public TabbedCustomer(){
         super("Customer");
@@ -35,6 +36,7 @@ public class TabbedCustomer extends JFrame implements ActionListener{
         super.setLocationRelativeTo(null);//appear the Jframe in center of the frame
         super.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         super.setResizable(false);
+        super.setIconImage(logo.getImage());
 
         
 
