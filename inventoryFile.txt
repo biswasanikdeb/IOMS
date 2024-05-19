@@ -1,6 +1,6 @@
 1	White Flag	550	650	10
-2	classic black (glossy) 	595	500	12
+2	classic black (glossy)	595	500	12
 3	classic black (matte)	595	500	20
-4	clear shade 	465	400	12
+4	clear shade	465	400	12
 5	classic polarizer	400	510	15
 6	aviator og	100	160	25
