@@ -37,6 +37,7 @@ public class TabbedOrder extends JFrame implements ActionListener{
     private Font f1;
     private JTextField tf1,tf2,tf3;
     private JButton bt1,bt2;
+    @SuppressWarnings("rawtypes")
     private JComboBox cb;
     private boolean flag;
     private ImageIcon logo = new ImageIcon("./images/logo.png");
@@ -48,6 +49,7 @@ public class TabbedOrder extends JFrame implements ActionListener{
     private int totalPrice,totalQty;
     
 
+    @SuppressWarnings({ "rawtypes", "unchecked" })
     public TabbedOrder(){
         super("Order");
         super.setSize(900,600);

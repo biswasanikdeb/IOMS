@@ -38,10 +38,12 @@ public class ClientPage extends JFrame implements ActionListener{
     private JLabel labelphone,labelname,label1,label2,label3,label4,label5,label6,label7,label8,label9,label10;
     private JTextField tf1;
     private JButton bt1,bt2,exitButton;
+    @SuppressWarnings("rawtypes")
     private JComboBox cb;
     private boolean flag;
     private int totalPrice,totalQty;
     private String dataArray[];
+    @SuppressWarnings({ "rawtypes", "unchecked" })
     public ClientPage(String username){
         
         super("Welcome to Menev.Store");

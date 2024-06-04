@@ -120,6 +120,7 @@ public class LoginPage extends JFrame implements ActionListener {
         super.add(panel);
     }
 
+    @SuppressWarnings("deprecation")
     public void actionPerformed(ActionEvent ae) {
         if (ae.getSource() == bt) {
             String username = tf.getText();

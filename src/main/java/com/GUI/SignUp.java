@@ -177,6 +177,7 @@ import java.awt.*;
 		public void mouseReleased(MouseEvent me){}
 		
 		
+		@SuppressWarnings("deprecation")
 		public void mouseEntered(MouseEvent me){
 			if(me.getSource()==signButton){
 				signButton.setBackground(Color.BLUE);
@@ -202,6 +203,7 @@ import java.awt.*;
 			}
 
 		}
+		@SuppressWarnings("deprecation")
 		public void actionPerformed(ActionEvent ae){
 			if(ae.getSource()==signButton){
 				String name = firstnameTF.getText();
