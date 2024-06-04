@@ -1,0 +1,4 @@
+1	classic black (matte)	500	2	1000
+2	aviator og	160	4	640
+3	aviator og	160	2	320
+4	White Flag	650	2	1300

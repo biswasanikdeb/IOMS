@@ -2,7 +2,6 @@ package com.gui.tabbedPanels;
 
 import java.awt.BorderLayout;
 
-
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -22,18 +21,18 @@ import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
 
-
 import com.gui.Welcome;
 import com.inventory.*;
 
 public class TabbedInventory extends JFrame implements ActionListener {
     private JPanel panel1, panel2, panel3, panel4;
-    private JTextField tf, tf2, tf3, tf4, tf5, tf6, tf7, tf8, tf9,tf10;
-    private JLabel label, label1, label2, label3, label4, label5, label6, label7, label8, label9, label10, label11,label12,label13,label14,label15;
+    private JTextField tf, tf2, tf3, tf4, tf5, tf6, tf7, tf8, tf9, tf10;
+    private JLabel label, label1, label2, label3, label4, label5, label6, label7, label8, label9, label10, label11,
+            label12, label13, label14, label15;
     private JTabbedPane tp;
     private JTable jt;
     private JScrollPane js;
-    private JButton bt1, bt2,bt3,bt4, exitButton, saveButton;
+    private JButton bt1, bt2, bt3, bt4, exitButton, saveButton;
     private TableColumnModel clmModel;
     private Font f1;
     private DefaultTableModel DefTM;
@@ -46,7 +45,6 @@ public class TabbedInventory extends JFrame implements ActionListener {
         super.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         super.setResizable(false);
         super.setIconImage(logo.getImage());
-        
 
         // <<<<<<<<<<<<-----------Inventory Show by table part----------------->>>>>>
         tp = new JTabbedPane();
@@ -216,14 +214,14 @@ public class TabbedInventory extends JFrame implements ActionListener {
         bt2.setEnabled(false);
         bt2.addActionListener(this);
         panel3.add(bt2);
-        //<<<<<-----------------------DELETE inventory-------------------->>>>>>
+        // <<<<<-----------------------DELETE inventory-------------------->>>>>>
         panel4 = new JPanel();
         panel4.setLayout(null);
-        panel4.setSize(900,600);
+        panel4.setSize(900, 600);
 
         label12 = new JLabel();
         label12.setText("Search Product");
-        label12.setBounds(50,40,200,30);
+        label12.setBounds(50, 40, 200, 30);
         label12.setFont(f1);
         panel4.add(label12);
 
@@ -233,32 +231,32 @@ public class TabbedInventory extends JFrame implements ActionListener {
 
         label13 = new JLabel();
         label13.setText("Status : ");
-        label13.setBounds(50,100,150,30);
+        label13.setBounds(50, 100, 150, 30);
         label13.setFont(f1);
         panel4.add(label13);
 
         label14 = new JLabel();
         label14.setText("Found");
-        label14.setBounds(150,100,130,30);
+        label14.setBounds(150, 100, 130, 30);
         label14.setFont(f1);
-        //panel4.add(label14);
+        // panel4.add(label14);
 
         label15 = new JLabel();
         label15.setText("Not Found");
-        label15.setBounds(150,100,130,30);
+        label15.setBounds(150, 100, 130, 30);
         label15.setFont(f1);
-        //panel4.add(label15);
+        // panel4.add(label15);
 
         bt3 = new JButton();
         bt3.setText("Search");
-        bt3.setBounds(680,40,100,30);
+        bt3.setBounds(680, 40, 100, 30);
         bt3.setFocusable(false);
         bt3.addActionListener(this);
         panel4.add(bt3);
 
         bt4 = new JButton();
         bt4.setText("Delete Product");
-        bt4.setBounds(380,200,140,30);
+        bt4.setBounds(380, 200, 140, 30);
         bt4.setFocusable(false);
         bt4.setEnabled(false);
         bt4.addActionListener(this);
@@ -344,8 +342,7 @@ public class TabbedInventory extends JFrame implements ActionListener {
             DefTM.setDataVector(im.getData(), im.getHeaderColumn());
             DefTM.fireTableDataChanged();
 
-        }
-        else if (ae.getSource() == bt3) {
+        } else if (ae.getSource() == bt3) {
             File inventoryFile = new File("./inventoryFile.txt");
             InventoryM im = new InventoryM();
             String name = tf10.getText();
@@ -362,24 +359,21 @@ public class TabbedInventory extends JFrame implements ActionListener {
                 bt4.setEnabled(false);
                 super.repaint();
             }
-            
-        }
-        else if (ae.getSource()==bt4) {
+
+        } else if (ae.getSource() == bt4) {
             String name = tf10.getText();
             InventoryM im = new InventoryM();
             File dataFile = new File("./inventoryFile.txt");
-            String dataa[]= im.checkOldData(name,dataFile);
-            if (im.getLineNumber(dataFile)>1) {
+            String dataa[] = im.checkOldData(name, dataFile);
+            if (im.getLineNumber(dataFile) > 1) {
                 im.deleteData(dataa, dataFile);
                 panel4.remove(label14);
                 bt4.setEnabled(false);
                 tf10.setText("");
-            }else{
+            } else {
                 JOptionPane.showMessageDialog(this, "Can not delete any more rows");
             }
-            
-            
-            
+
             DefTM.setDataVector(im.getData(), im.getHeaderColumn());
             DefTM.fireTableDataChanged();
         }

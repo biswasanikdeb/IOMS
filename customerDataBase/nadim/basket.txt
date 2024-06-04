@@ -1,0 +1,3 @@
+1	classic black (glossy)	500	1	500
+2	classic black (matte)	500	2	1000
+3	aviator og	160	1	160
