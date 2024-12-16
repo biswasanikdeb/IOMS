@@ -1,4 +1,4 @@
-1	White Flag	550	650	10
+1	Black Flag	550	650	10
 2	classic black (glossy)	595	500	12
 3	classic black (matte)	595	500	20
 4	clear shade	465	400	12

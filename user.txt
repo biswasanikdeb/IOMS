@@ -6,3 +6,5 @@ E1	e1
 s1	s1
 s1	s1
 N1	n1
+na	1
+far	1
