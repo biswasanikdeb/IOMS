@@ -1,4 +1,4 @@
-package com.gui.tabbedPanels;
+package com.GUI.tabbedPanels;
 
 
 
@@ -17,8 +17,8 @@ import javax.swing.table.DefaultTableModel;
 
 import javax.swing.table.TableColumnModel;
 
+import com.GUI.Welcome;
 import com.customer.CustomerM;
-import com.gui.Welcome;
 
 
 public class TabbedCustomer extends JFrame implements ActionListener{

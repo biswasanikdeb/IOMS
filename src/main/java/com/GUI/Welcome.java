@@ -1,9 +1,9 @@
-package com.gui;
+package com.GUI;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
-import com.gui.tabbedPanels.*;
+import com.GUI.tabbedPanels.*;
 
 public class Welcome extends JFrame implements ActionListener {
     private JPanel panel1, panel2;

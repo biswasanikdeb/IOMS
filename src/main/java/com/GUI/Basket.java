@@ -1,4 +1,4 @@
-package com.gui;
+package com.GUI;
 
 import java.awt.FlowLayout;
 
@@ -10,8 +10,8 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
 
+import com.GUI.tabbedPanels.TabbedOrder;
 import com.basket.BasketM;
-import com.gui.tabbedPanels.TabbedOrder;
 
 
 public class Basket extends JFrame{

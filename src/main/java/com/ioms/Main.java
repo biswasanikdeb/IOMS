@@ -1,7 +1,7 @@
 package com.ioms;
 
+import com.GUI.*;
 import com.db.conn;
-import com.gui.*;
 
 
 public class Main  {

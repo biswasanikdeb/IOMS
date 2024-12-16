@@ -1,4 +1,4 @@
-package com.newcommon;
+package com.newCommon;
 
 import java.io.File;
 import java.io.FileReader;

@@ -1,4 +1,4 @@
-package com.gui;
+package com.GUI;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -23,7 +23,7 @@ import javax.swing.table.TableColumnModel;
 
 import com.basket.BasketM;
 import com.inventory.InventoryM;
-import com.newcommon.DataManagement;
+import com.newCommon.DataManagement;
 import com.order.OrderM;
 
 public class ClientPage extends JFrame implements ActionListener{

@@ -1,8 +1,9 @@
 package com.inventory;
 
-import com.newcommon.*;
 import java.io.File;
 import java.util.Scanner;
+
+import com.newCommon.*;
 
 public class InventoryM extends DataManagement {
     // table related data

@@ -5,7 +5,7 @@ import java.io.FileReader;
 import java.io.LineNumberReader;
 import java.util.Scanner;
 
-import com.newcommon.DataManagement;
+import com.newCommon.DataManagement;
 
 public class CustomerM extends DataManagement{
     private String headerColumn[] = new String[] {"SL. No","UserName ","Name", "Gender","Phone No","DOB"};

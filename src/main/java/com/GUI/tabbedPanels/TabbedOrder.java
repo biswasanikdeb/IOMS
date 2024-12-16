@@ -1,4 +1,4 @@
-package com.gui.tabbedPanels;
+package com.GUI.tabbedPanels;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
@@ -22,10 +22,10 @@ import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
 
+import com.GUI.Welcome;
 import com.basket.BasketM;
-import com.gui.Welcome;
 import com.inventory.InventoryM;
-import com.newcommon.DataManagement;
+import com.newCommon.DataManagement;
 import com.order.OrderM;
 
 

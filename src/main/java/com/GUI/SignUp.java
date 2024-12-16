@@ -1,4 +1,4 @@
-	package com.gui;
+	package com.GUI;
 	import javax.swing.*;
 
 import com.customer.CustomerM;

@@ -1,4 +1,4 @@
-package com.newcommon;
+package com.newCommon;
 
 public class DataVerify {
 

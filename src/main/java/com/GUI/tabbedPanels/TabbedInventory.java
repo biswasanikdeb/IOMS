@@ -1,4 +1,4 @@
-package com.gui.tabbedPanels;
+package com.GUI.tabbedPanels;
 
 import java.awt.BorderLayout;
 
@@ -21,7 +21,7 @@ import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
 
-import com.gui.Welcome;
+import com.GUI.Welcome;
 import com.inventory.*;
 
 public class TabbedInventory extends JFrame implements ActionListener {

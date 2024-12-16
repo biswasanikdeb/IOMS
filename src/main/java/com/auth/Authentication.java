@@ -3,7 +3,7 @@ package com.auth;
 import java.io.File;
 import java.util.Scanner;
 
-import com.newcommon.*;
+import com.newCommon.*;
 
 public class Authentication {
 
