@@ -2,7 +2,7 @@ package com.GUI;
 
 import javax.swing.*;
 
-import com.auth.Authentication;
+import com.db.DML;
 
 import java.awt.event.*;
 import java.awt.*;
@@ -219,19 +219,13 @@ public class SignUp extends JFrame implements ActionListener, MouseListener {
 					|| pass.isEmpty() || passVerify.isEmpty()) {
 				JOptionPane.showMessageDialog(this, "Fillup the whole Form");
 			} else {
-				Authentication auth = new Authentication(userName, pass);
-				String flag = auth.addAccount();
-				if (flag == null) {
-					JOptionPane.showMessageDialog(this, "Sign up Successful !");
+				DML dml = new DML();
+				boolean response = dml.addToCustomerTable(name, userName, gender, phone, dob, this);
+				if (response) {
+					dml.addToAuthTable(userName, pass,this);
 					dispose();
 					LoginPage lp = new LoginPage();
 					lp.setVisible(true);
-				} else {
-					if (flag.equals("0")) {
-						JOptionPane.showMessageDialog(this, "Please Enter a unique username and try again");
-					} else if (flag.equals("1")) {
-						JOptionPane.showMessageDialog(this, "Something Went Wrong!!! \nPlease try again.");
-					}
 				}
 			}
 

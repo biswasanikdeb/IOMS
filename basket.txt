@@ -1,2 +1,0 @@
-1	Black Flag	650	1	650
-2	clear shade	400	1	400

@@ -22,6 +22,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
 
 import com.basket.BasketM;
+import com.db.DML;
 import com.inventory.InventoryM;
 import com.newCommon.DataManagement;
 import com.order.OrderM;
@@ -43,6 +44,7 @@ public class ClientPage extends JFrame implements ActionListener{
     private boolean flag;
     private int totalPrice,totalQty;
     private String dataArray[];
+    private DML dml = new DML();
     @SuppressWarnings({ "rawtypes", "unchecked" })
     public ClientPage(String username){
         
@@ -171,16 +173,7 @@ public class ClientPage extends JFrame implements ActionListener{
         label9.setFont(f1);
         panel2.add(label9);
 
-
-        InventoryM im = new InventoryM();
-        Object temp[][] = im.getData();
-        Object arr[] = new Object[im.getLineNumber(new File("./inventoryFile.txt"))];
-        for(int i = 0; i<im.getLineNumber(new File("./inventoryFile.txt")); i++){
-            Object obj=temp[i][1];
-            arr[i]=obj;
-        }
-        
-		cb = new JComboBox(arr);
+		cb = new JComboBox(dml.getProducts());
 		cb.setBounds(130,160,150,30);
         
         cb.addActionListener(this);
