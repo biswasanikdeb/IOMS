@@ -254,7 +254,7 @@ public class TabbedInventory extends JFrame implements ActionListener {
         bt1.setBounds(680, 40, 100, 30);
         bt1.setFocusable(false);
         bt1.addActionListener(this);
-        panel3.add(bt1);
+        //panel3.add(bt1);
 
         bt2 = new JButton();
         bt2.setText("Save");

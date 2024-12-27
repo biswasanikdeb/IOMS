@@ -5,10 +5,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.SQLIntegrityConstraintViolationException;
 
-import com.db.conn;
+import com.db.DML;
 
 public class Authentication {
-
+    DML dml = new DML();
     private String Username, password;
 
     public Authentication(String Username, String Password) {
@@ -39,7 +39,7 @@ public class Authentication {
     // }
     public boolean verify(){
 
-        ResultSet rs = conn.runQuery("Select * from auth");
+        ResultSet rs = dml.runQuery("Select * from auth");
         boolean flag = false;
         try {
             while (rs.next()) {
@@ -82,7 +82,7 @@ public class Authentication {
     // }
     public boolean customerVerify(){
 
-        ResultSet rs = conn.runQuery("Select * from auth");
+        ResultSet rs = dml.runQuery("Select * from auth");
         boolean flag = false;
         try {
             while (rs.next()) {
@@ -107,7 +107,7 @@ public class Authentication {
     public String addAccount(){
         try {
             String statement = "INSERT INTO AUTH(USERNAME, PASSWORD,USERTYPE) VALUES(?,?,'client')";
-            PreparedStatement pstmt = conn.runStatement(statement);
+            PreparedStatement pstmt = dml.runStatement(statement);
             pstmt.setString(1, Username);
             pstmt.setString(2, password);
             pstmt.executeUpdate();
