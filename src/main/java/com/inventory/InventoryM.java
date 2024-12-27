@@ -1,34 +1,20 @@
 package com.inventory;
 
-import java.io.File;
-import java.util.Scanner;
 
-import com.newCommon.*;
+import com.db.DML;
+import com.newCommon.DataManagement;
+
 
 public class InventoryM extends DataManagement {
     // table related data
-    private String headerColumn[] = new String[] { "SL", "Item Name ", "Buying Price", "Selling Price",
-            "Available Quantity" };
-    private Object data[][];
-    File inventoryFile = new File("./inventoryFile.txt");
-
+    private String headerColumn[] = new String[] { "ID", "Item Name ", "Available Quantity", "Buying Price",
+            "Selling Price" };
+    DML dml = new DML();
     
 
     public Object[][] getData() { // reads the line number first then get the data by the line
-        try {
-            Scanner sc = new Scanner(inventoryFile);
-
-            int len = getLineNumber(inventoryFile);
-
-            data = new Object[len][5];
-            for (int i = 0; sc.hasNextLine(); i++) {
-                data[i] = readData(inventoryFile, sc);
-            }
-            sc.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return data;
+       
+        return dml.getTableData("PRODUCTS");
     }
 
     public String[] getHeaderColumn() {
@@ -37,9 +23,10 @@ public class InventoryM extends DataManagement {
 
     public void addToInventoryData(String name, String b_price, String s_price, String qty ) {
 
-        addData(getLineNumber(inventoryFile)+1, name, b_price, s_price, qty, inventoryFile);
+        dml.addProducts(name,Integer.parseInt(b_price), Integer.parseInt(s_price), Integer.parseInt(qty));
 
     }
+    
     public void modifyInventory(){
 
     }

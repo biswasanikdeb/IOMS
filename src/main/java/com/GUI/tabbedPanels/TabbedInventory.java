@@ -7,13 +7,16 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.Scanner;
+import java.util.Vector;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
@@ -22,6 +25,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
 
 import com.GUI.Welcome;
+import com.db.DML;
 import com.inventory.*;
 
 public class TabbedInventory extends JFrame implements ActionListener {
@@ -37,7 +41,7 @@ public class TabbedInventory extends JFrame implements ActionListener {
     private Font f1;
     private DefaultTableModel DefTM;
     private ImageIcon logo = new ImageIcon("./images/logo.png");
-
+    private DML dml = new DML();
     public TabbedInventory() {
         super("Inventory");
         super.setSize(900, 600);
@@ -51,7 +55,7 @@ public class TabbedInventory extends JFrame implements ActionListener {
 
         InventoryM im = new InventoryM();
 
-        DefTM = new DefaultTableModel(im.getData(), im.getHeaderColumn());
+        DefTM = new DefaultTableModel(dml.getTableData("PRODUCTS"), im.getHeaderColumn());
         jt = new JTable(DefTM) {
             public boolean editCellAt(int row, int column, java.util.EventObject e) {
                 return false;
@@ -139,6 +143,51 @@ public class TabbedInventory extends JFrame implements ActionListener {
         panel3.add(label4);
 
         tf5 = new JTextField();
+        tf5.getDocument().addDocumentListener(new javax.swing.event.DocumentListener() {
+            private javax.swing.Timer timer = new javax.swing.Timer(500, new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                bt1.doClick();
+            }
+            });
+
+            public void insertUpdate(javax.swing.event.DocumentEvent e) {
+            timer.restart();
+            }
+
+            public void removeUpdate(javax.swing.event.DocumentEvent e) {
+            timer.restart();
+            }
+
+            public void changedUpdate(javax.swing.event.DocumentEvent e) {
+            timer.restart();
+            }
+        });
+
+        tf5.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+            String text = tf5.getText();
+            if (!text.isEmpty()) {
+                Vector<String>  suggestions = dml.getSuggestions(text,"PRODUCTS","PRD_NAME");
+                for (String string : suggestions) {
+                    System.out.println(string+"\n");
+                }
+                if (suggestions.size() > 0) {
+                JPopupMenu popup = new JPopupMenu();
+                for (String suggestion : suggestions) {
+                    JMenuItem item = new JMenuItem(suggestion);
+                    item.addActionListener(new ActionListener() {
+                    public void actionPerformed(ActionEvent e) {
+                        tf5.setText(suggestion);
+                        popup.setVisible(false);
+                    }
+                    });
+                    popup.add(item);
+                }
+                popup.show(tf5, 0, tf5.getHeight());
+                }
+            }
+            }
+        });
         tf5.setBounds(250, 40, 350, 30);
         panel3.add(tf5);
 
@@ -301,21 +350,21 @@ public class TabbedInventory extends JFrame implements ActionListener {
             }
 
         } else if (ae.getSource() == bt1) {
-            File inventoryFile = new File("./inventoryFile.txt");
+            
             InventoryM im = new InventoryM();
             String name = tf5.getText();
-            if (im.boolCheckOldData(name, inventoryFile)) {
-                panel3.add(label6);
-                bt2.setEnabled(true);
-                panel3.remove(label7);
+            // if (im.boolCheckOldData(name, inventoryFile)) {
+            //     panel3.add(label6);
+            //     bt2.setEnabled(true);
+            //     panel3.remove(label7);
 
-                super.repaint();
-            } else {
-                panel3.remove(label6);
-                panel3.add(label7);
-                bt2.setEnabled(false);
-                super.repaint();
-            }
+            //     super.repaint();
+            // } else {
+            //     panel3.remove(label6);
+            //     panel3.add(label7);
+            //     bt2.setEnabled(false);
+            //     super.repaint();
+            // }
         } else if (ae.getSource() == bt2) {
             String oldName = tf5.getText();
             String newName = tf6.getText();
@@ -324,7 +373,7 @@ public class TabbedInventory extends JFrame implements ActionListener {
             String newQty = tf9.getText();
             File inventoryFile = new File("./inventoryFile.txt");
             InventoryM im = new InventoryM();
-            String data[] = im.checkOldData(oldName, inventoryFile);
+            // String data[] = im.checkOldData(oldName, inventoryFile);
 
             tf5.setText("");
             tf6.setText("");
@@ -334,7 +383,7 @@ public class TabbedInventory extends JFrame implements ActionListener {
 
             try {
                 Scanner sc = new Scanner(inventoryFile);
-                im.modifyData(newName, newBuyingPrice, newSellingPrice, newQty, data, inventoryFile, sc);
+                // im.modifyData(newName, newBuyingPrice, newSellingPrice, newQty, data, inventoryFile, sc);
                 sc.close();
             } catch (Exception e) {
                 e.printStackTrace();
@@ -347,32 +396,32 @@ public class TabbedInventory extends JFrame implements ActionListener {
             InventoryM im = new InventoryM();
             String name = tf10.getText();
 
-            if (im.boolCheckOldData(name, inventoryFile)) {
-                panel4.add(label14);
-                bt4.setEnabled(true);
-                panel4.remove(label15);
+            // if (im.boolCheckOldData(name, inventoryFile)) {
+            //     panel4.add(label14);
+            //     bt4.setEnabled(true);
+            //     panel4.remove(label15);
 
-                super.repaint();
-            } else {
-                panel4.remove(label14);
-                panel4.add(label15);
-                bt4.setEnabled(false);
-                super.repaint();
-            }
+            //     super.repaint();
+            // } else {
+            //     panel4.remove(label14);
+            //     panel4.add(label15);
+            //     bt4.setEnabled(false);
+            //     super.repaint();
+            // }
 
         } else if (ae.getSource() == bt4) {
             String name = tf10.getText();
             InventoryM im = new InventoryM();
             File dataFile = new File("./inventoryFile.txt");
-            String dataa[] = im.checkOldData(name, dataFile);
-            if (im.getLineNumber(dataFile) > 1) {
-                im.deleteData(dataa, dataFile);
-                panel4.remove(label14);
-                bt4.setEnabled(false);
-                tf10.setText("");
-            } else {
-                JOptionPane.showMessageDialog(this, "Can not delete any more rows");
-            }
+            // String dataa[] = im.checkOldData(name, dataFile);
+            // if (im.getLineNumber(dataFile) > 1) {
+            //     im.deleteData(dataa, dataFile);
+            //     panel4.remove(label14);
+            //     bt4.setEnabled(false);
+            //     tf10.setText("");
+            // } else {
+            //     JOptionPane.showMessageDialog(this, "Can not delete any more rows");
+            // }
 
             DefTM.setDataVector(im.getData(), im.getHeaderColumn());
             DefTM.fireTableDataChanged();
