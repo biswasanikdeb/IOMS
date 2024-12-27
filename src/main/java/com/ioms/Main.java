@@ -1,6 +1,5 @@
 package com.ioms;
 
-import com.GUI.*;
 import com.GUI.tabbedPanels.TabbedInventory;
 
 
