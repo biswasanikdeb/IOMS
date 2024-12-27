@@ -2,6 +2,8 @@ target/
 .ENV    
 .vscode
 *.class
+*.jar
+*.text
 goal.txt
 src/main/java/com/gui/sample
 
