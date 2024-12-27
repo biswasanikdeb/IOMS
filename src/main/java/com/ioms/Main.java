@@ -10,6 +10,7 @@ public class Main  {
        
         //LoginPage obj1 = new LoginPage();
         TabbedInventory obj1 = new TabbedInventory();
+        System.out.println("Hello World");
         obj1.setVisible(true);
     }
 }
