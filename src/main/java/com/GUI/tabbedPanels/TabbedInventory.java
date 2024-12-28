@@ -6,7 +6,6 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
-import java.util.Scanner;
 import java.util.Vector;
 
 import javax.swing.ImageIcon;
@@ -29,6 +28,7 @@ import com.db.DML;
 import com.inventory.*;
 
 public class TabbedInventory extends JFrame implements ActionListener {
+    private final String TABLENAME = "PRODUCTS";    
     private JPanel panel1, panel2, panel3, panel4;
     private JTextField tf, tf2, tf3, tf4, tf5, tf6, tf7, tf8, tf9, tf10;
     private JLabel label, label1, label2, label3, label4, label5, label6, label7, label8, label9, label10, label11,
@@ -42,6 +42,7 @@ public class TabbedInventory extends JFrame implements ActionListener {
     private DefaultTableModel DefTM;
     private ImageIcon logo = new ImageIcon("./images/logo.png");
     private DML dml = new DML();
+    private InventoryM im = new InventoryM();
     public TabbedInventory() {
         super("Inventory");
         super.setSize(900, 600);
@@ -52,8 +53,6 @@ public class TabbedInventory extends JFrame implements ActionListener {
 
         // <<<<<<<<<<<<-----------Inventory Show by table part----------------->>>>>>
         tp = new JTabbedPane();
-
-        InventoryM im = new InventoryM();
 
         DefTM = new DefaultTableModel(dml.getTableData("PRODUCTS"), im.getHeaderColumn());
         jt = new JTable(DefTM) {
@@ -260,7 +259,7 @@ public class TabbedInventory extends JFrame implements ActionListener {
         bt2.setText("Save");
         bt2.setBounds(400, 430, 100, 30);
         bt2.setFocusable(false);
-        bt2.setEnabled(false);
+        bt2.setEnabled(true);
         bt2.addActionListener(this);
         panel3.add(bt2);
         // <<<<<-----------------------DELETE inventory-------------------->>>>>>
@@ -336,7 +335,6 @@ public class TabbedInventory extends JFrame implements ActionListener {
             String b_price = tf2.getText();
             String s_price = tf3.getText();
             String qty = tf4.getText();
-            InventoryM im = new InventoryM();
             if (name.isEmpty() || b_price.isEmpty() || s_price.isEmpty() || qty.isEmpty()) {
                 JOptionPane.showMessageDialog(this, "Empty Field \nplease Fill out all the Fields");
             } else {
@@ -349,51 +347,26 @@ public class TabbedInventory extends JFrame implements ActionListener {
                 DefTM.fireTableDataChanged();
             }
 
-        } else if (ae.getSource() == bt1) {
-            
-            InventoryM im = new InventoryM();
-            String name = tf5.getText();
-            // if (im.boolCheckOldData(name, inventoryFile)) {
-            //     panel3.add(label6);
-            //     bt2.setEnabled(true);
-            //     panel3.remove(label7);
-
-            //     super.repaint();
-            // } else {
-            //     panel3.remove(label6);
-            //     panel3.add(label7);
-            //     bt2.setEnabled(false);
-            //     super.repaint();
-            // }
         } else if (ae.getSource() == bt2) {
             String oldName = tf5.getText();
-            String newName = tf6.getText();
-            String newBuyingPrice = tf8.getText();
-            String newSellingPrice = tf7.getText();
-            String newQty = tf9.getText();
-            File inventoryFile = new File("./inventoryFile.txt");
-            InventoryM im = new InventoryM();
-            // String data[] = im.checkOldData(oldName, inventoryFile);
-
+            int primaryKey = dml.getPrimaryKey(TABLENAME, oldName, "PRD_NAME", "PRD_ID");
+            String PRD_NAME = tf6.getText();
+            String B_PRICE = tf8.getText();
+            String S_PRICE = tf7.getText();
+            String AVL_QTY = tf9.getText();
+            im.modifyInventory(primaryKey, PRD_NAME, B_PRICE, S_PRICE, AVL_QTY);
             tf5.setText("");
             tf6.setText("");
             tf7.setText("");
             tf8.setText("");
             tf9.setText("");
 
-            try {
-                Scanner sc = new Scanner(inventoryFile);
-                // im.modifyData(newName, newBuyingPrice, newSellingPrice, newQty, data, inventoryFile, sc);
-                sc.close();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            
             DefTM.setDataVector(im.getData(), im.getHeaderColumn());
             DefTM.fireTableDataChanged();
 
         } else if (ae.getSource() == bt3) {
             File inventoryFile = new File("./inventoryFile.txt");
-            InventoryM im = new InventoryM();
             String name = tf10.getText();
 
             // if (im.boolCheckOldData(name, inventoryFile)) {
@@ -411,7 +384,6 @@ public class TabbedInventory extends JFrame implements ActionListener {
 
         } else if (ae.getSource() == bt4) {
             String name = tf10.getText();
-            InventoryM im = new InventoryM();
             File dataFile = new File("./inventoryFile.txt");
             // String dataa[] = im.checkOldData(name, dataFile);
             // if (im.getLineNumber(dataFile) > 1) {

@@ -188,9 +188,9 @@ public class DML extends conn {
         return data;
     }
 
-
     public Vector<String> getSuggestions(String text, String tableName, String columnName) {
-        String statement = "SELECT "+columnName+" FROM " + tableName + " WHERE " + columnName + " LIKE '%" + text + "%'";
+        String statement = "SELECT " + columnName + " FROM " + tableName + " WHERE " + columnName + " LIKE '%" + text
+                + "%'";
         System.out.println(statement);
         ResultSet rs = super.runQuery(statement);
         Vector<String> data = null;
@@ -198,11 +198,49 @@ public class DML extends conn {
             data = new Vector<>();
             while (rs.next()) {
                 if (rs.getString(1) != null)
-                data.add(rs.getString(1));
+                    data.add(rs.getString(1));
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return data;
+    }
+
+    public int getPrimaryKey(String tableName, String keyValue, String keyValueColumn, String primaryColumnName) {
+        String statement = "SELECT " + primaryColumnName + " FROM " + tableName + " WHERE " + keyValueColumn + " = '"
+                + keyValue + "'";
+        ResultSet rs = super.runQuery(statement);
+        int primaryKey = 0;
+        try {
+            if (rs.next()) {
+                primaryKey = rs.getInt(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return primaryKey;
+    }
+
+    public void updateTable(String tableName, String columnName, String value, String primaryKeyColumn,
+            int primaryKeyValue) {
+        String statement = "UPDATE " + tableName + " SET " + columnName + " = '" + value + "' WHERE " + primaryKeyColumn
+                + " = '" + primaryKeyValue + "'";
+        try {
+            PreparedStatement pstmt = super.runStatement(statement);
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    public void updateTable(String tableName, String columnName, int value, String primaryKeyColumn,
+            int primaryKeyValue) {
+        String statement = "UPDATE " + tableName + " SET " + columnName + " = '" + value + "' WHERE " + primaryKeyColumn
+                + " = '" + primaryKeyValue + "'";
+        try {
+            PreparedStatement pstmt = super.runStatement(statement);
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }

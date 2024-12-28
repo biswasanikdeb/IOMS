@@ -36,11 +36,11 @@ public class conn {
     public PreparedStatement runStatement(String statement) { 
         PreparedStatement pstmt = null;
         try {
-            pstmt = DBcon().prepareStatement(statement);
-            return pstmt;
+            return DBcon().prepareStatement(statement);
+            
         } catch (SQLException e) {
-
             e.printStackTrace();
+            return null;
         } finally {
             try {
                 if (pstmt != null) {
@@ -50,21 +50,19 @@ public class conn {
                 e.printStackTrace();
             }
         }
-        return null;
+        
 
     }
 
     public ResultSet runQuery(String Query) {
-        ResultSet rs = null;
         Statement stmt;
         try {
             stmt = DBcon().createStatement();
-            rs = stmt.executeQuery(Query);
+            return stmt.executeQuery(Query);
 
         } catch (SQLException e) {
-
             e.printStackTrace();
+            return null;
         }
-        return rs;
     }
 }
