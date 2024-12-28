@@ -17,10 +17,10 @@ import com._String.Sanitize;
 public class DML extends conn {
     private static final Logger LOGGER = Logger.getLogger(conn.class.getName());
     // adds data
-    public boolean addToCustomerTable(String name, String username, String gender, String phone, String dob,
+    public boolean addToCustomerTable(String name, String username, String gender, String phone, String dob,String addr,
             Component parentComponent) {
         String takeRowCountStatement = "SELECT COUNT(CUSTOMER_ID) FROM CUSTOMER";
-        String dataInsertion = "INSERT INTO CUSTOMER(CUSTOMER_ID,USERNAME,NAME,GENDER,PHONE#,DOB) VALUES(?,?, ?,?,?,TO_DATE(?,'DD/MM/YY'))";
+        String dataInsertion = "INSERT INTO CUSTOMER(CUSTOMER_ID,USERNAME,NAME,GENDER,PHONE#,DOB,ADDRESS) VALUES(?,?, ?,?,?,TO_DATE(?,'DD/MM/YY'),?)";
         String checkExisting = "SELECT a.username, c.phone# FROM auth a, customer c WHERE (a.username = c.username) and (a.username = ? and c.phone# = ?)";
 
         PreparedStatement pstmt1 = super.runStatement(checkExisting);
@@ -52,6 +52,7 @@ public class DML extends conn {
                     pstmt.setString(4, Sanitize.san(gender));
                     pstmt.setString(5, Sanitize.san(phone));
                     pstmt.setString(6, Sanitize.san(dob));
+                    pstmt.setString(7, Sanitize.san(addr));
                     pstmt.executeUpdate();
                     pstmt1.close();
                     pstmt.close();

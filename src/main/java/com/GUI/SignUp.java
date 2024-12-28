@@ -8,7 +8,7 @@ import java.awt.event.*;
 import java.awt.*;
 
 public class SignUp extends JFrame implements ActionListener, MouseListener {
-	JLabel firstnamelbl, surnamelbl, username, phoneormaillbl, passlbl, repasslbl, dbirthlbl, genderlbl, text1, text2,
+	JLabel firstnamelbl, surnamelbl, username, phoneormaillbl, passlbl, repasslbl, dbirthlbl, genderlbl,addrlbl, text1, text2,
 			label;
 	JTextField firstnameTF, surnameTF, phoneormaillTF, dbirthTF, genderTF, unTF;
 	JPasswordField passPF, repassTF;
@@ -19,6 +19,8 @@ public class SignUp extends JFrame implements ActionListener, MouseListener {
 	Color myColor;
 	Font myFont, font2;
 	Cursor c1;
+	JTextArea addrTF;
+	JScrollPane scroll;
 	private ImageIcon logo = new ImageIcon("./images/logo.png");
 
 	public SignUp() {
@@ -27,7 +29,7 @@ public class SignUp extends JFrame implements ActionListener, MouseListener {
 		super.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		super.setLocationRelativeTo(null);
 		super.setResizable(false);
-		super.setSize(550, 500);
+		super.setSize(550, 600);
 		super.setIconImage(logo.getImage());
 
 		myColor = new Color(192, 192, 192);
@@ -123,27 +125,43 @@ public class SignUp extends JFrame implements ActionListener, MouseListener {
 		phoneormaillTF.setBackground(Color.WHITE);
 		panel.add(phoneormaillTF);
 
+		addrlbl = new JLabel("Address :");
+		addrlbl.setBounds(50, 315, 300, 40);
+		addrlbl.setBackground(Color.GRAY);
+		addrlbl.setOpaque(false);
+		addrlbl.setFont(myFont);
+		panel.add(addrlbl);
+
+		addrTF = new JTextArea();
+		addrTF.setBounds(170, 315, 190, 75);
+		addrTF.setBackground(Color.WHITE);
+		addrTF.setLineWrap(true);
+		addrTF.setWrapStyleWord(true);
+		scroll = new JScrollPane(addrTF);
+		panel.add(addrTF);
+
+
 		passlbl = new JLabel("New Password");
-		passlbl.setBounds(50, 310, 160, 40);
+		passlbl.setBounds(50, 400, 160, 40);
 		passlbl.setBackground(Color.GRAY);
 		passlbl.setOpaque(false);
 		passlbl.setFont(myFont);
 		panel.add(passlbl);
 
 		passPF = new JPasswordField();
-		passPF.setBounds(195, 310, 190, 30);
+		passPF.setBounds(195, 400, 190, 30);
 		passPF.setEchoChar('*');
 		panel.add(passPF);
 
 		repasslbl = new JLabel("Confirm Password");
-		repasslbl.setBounds(50, 345, 300, 40);
+		repasslbl.setBounds(50, 440, 300, 40);
 		repasslbl.setBackground(Color.GRAY);
 		repasslbl.setOpaque(false);
 		repasslbl.setFont(myFont);
 		panel.add(repasslbl);
 
 		repassTF = new JPasswordField();
-		repassTF.setBounds(230, 345, 190, 30);
+		repassTF.setBounds(230, 440, 190, 30);
 		repassTF.setEchoChar('*');
 		panel.add(repassTF);
 
@@ -151,7 +169,7 @@ public class SignUp extends JFrame implements ActionListener, MouseListener {
 
 		signButton = new JButton("Create Account");
 		signButton.setCursor(c1);
-		signButton.setBounds(150, 400, 200, 30);
+		signButton.setBounds(150, 500, 200, 30);
 		signButton.setBackground(Color.GREEN);
 		signButton.setForeground(Color.BLACK);
 		signButton.setOpaque(true);
@@ -214,13 +232,13 @@ public class SignUp extends JFrame implements ActionListener, MouseListener {
 			String phone = phoneormaillTF.getText();
 			String pass = passPF.getText();
 			String passVerify = repassTF.getText();
-
+			String addr = addrTF.getText();
 			if (name.isEmpty() || userName.isEmpty() || gender.isEmpty() || dob.isEmpty() || phone.isEmpty()
-					|| pass.isEmpty() || passVerify.isEmpty()) {
+					|| pass.isEmpty() || passVerify.isEmpty() || addr.isEmpty()) {
 				JOptionPane.showMessageDialog(this, "Fillup the whole Form");
 			} else {
 				DML dml = new DML();
-				boolean response = dml.addToCustomerTable(name, userName, gender, phone, dob, this);
+				boolean response = dml.addToCustomerTable(name, userName, gender, phone, dob,addr, this);
 				if (response) {
 					dml.addToAuthTable(userName, pass,this);
 					dispose();

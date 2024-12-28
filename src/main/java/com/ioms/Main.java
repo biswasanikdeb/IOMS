@@ -1,6 +1,6 @@
 package com.ioms;
 
-import com.GUI.tabbedPanels.TabbedInventory;
+import com.GUI.tabbedPanels.TabbedCustomer;
 
 
 public class Main  {
@@ -9,7 +9,8 @@ public class Main  {
     public static void main(String[] args) {
        
         //LoginPage obj1 = new LoginPage();
-        TabbedInventory obj1 = new TabbedInventory();
+        TabbedCustomer obj1 = new TabbedCustomer();
+      
         obj1.setVisible(true);
     }
 }

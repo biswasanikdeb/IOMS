@@ -50,11 +50,12 @@ public class TabbedCustomer extends JFrame implements ActionListener{
         };
         jt.setRowSelectionAllowed(true);
         clmModel = jt.getColumnModel();
-        clmModel.getColumn(0).setPreferredWidth(30);
+        clmModel.getColumn(0).setPreferredWidth(5);
         clmModel.getColumn(1).setPreferredWidth(90);
         clmModel.getColumn(2).setPreferredWidth(50);
         clmModel.getColumn(3).setPreferredWidth(50);
         clmModel.getColumn(4).setPreferredWidth(90);
+        clmModel.getColumn(5).setPreferredWidth(90);
         jt.getTableHeader().setResizingAllowed(false);
         jt.getTableHeader().setReorderingAllowed(false);
 
