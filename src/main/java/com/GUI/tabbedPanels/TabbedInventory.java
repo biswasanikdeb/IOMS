@@ -142,25 +142,6 @@ public class TabbedInventory extends JFrame implements ActionListener {
         panel3.add(label4);
 
         tf5 = new JTextField();
-        tf5.getDocument().addDocumentListener(new javax.swing.event.DocumentListener() {
-            private javax.swing.Timer timer = new javax.swing.Timer(500, new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                bt1.doClick();
-            }
-            });
-
-            public void insertUpdate(javax.swing.event.DocumentEvent e) {
-            timer.restart();
-            }
-
-            public void removeUpdate(javax.swing.event.DocumentEvent e) {
-            timer.restart();
-            }
-
-            public void changedUpdate(javax.swing.event.DocumentEvent e) {
-            timer.restart();
-            }
-        });
 
         tf5.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
@@ -274,39 +255,64 @@ public class TabbedInventory extends JFrame implements ActionListener {
         panel4.add(label12);
 
         tf10 = new JTextField();
+        tf10.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+            String text = tf10.getText();
+            if (!text.isEmpty()) {
+                Vector<String>  suggestions = dml.getSuggestions(text,"PRODUCTS","PRD_NAME");
+                for (String string : suggestions) {
+                    System.out.println(string+"\n");
+                }
+                if (suggestions.size() > 0) {
+                JPopupMenu popup = new JPopupMenu();
+                for (String suggestion : suggestions) {
+                    JMenuItem item = new JMenuItem(suggestion);
+                    item.addActionListener(new ActionListener() {
+                    public void actionPerformed(ActionEvent e) {
+                        tf10.setText(suggestion);
+                        popup.setVisible(false);
+                    }
+                    });
+                    popup.add(item);
+                }
+                popup.show(tf10, 0, tf10.getHeight());
+                }
+            }
+            }
+        });
         tf10.setBounds(250, 40, 350, 30);
         panel4.add(tf10);
 
-        label13 = new JLabel();
-        label13.setText("Status : ");
-        label13.setBounds(50, 100, 150, 30);
-        label13.setFont(f1);
-        panel4.add(label13);
+        // label13 = new JLabel();
+        // label13.setText("Status : ");
+        // label13.setBounds(50, 100, 150, 30);
+        // label13.setFont(f1);
+        // panel4.add(label13);
 
-        label14 = new JLabel();
-        label14.setText("Found");
-        label14.setBounds(150, 100, 130, 30);
-        label14.setFont(f1);
-        // panel4.add(label14);
+        // label14 = new JLabel();
+        // label14.setText("Found");
+        // label14.setBounds(150, 100, 130, 30);
+        // label14.setFont(f1);
+        // // panel4.add(label14);
 
-        label15 = new JLabel();
-        label15.setText("Not Found");
-        label15.setBounds(150, 100, 130, 30);
-        label15.setFont(f1);
-        // panel4.add(label15);
+        // label15 = new JLabel();
+        // label15.setText("Not Found");
+        // label15.setBounds(150, 100, 130, 30);
+        // label15.setFont(f1);
+        // // panel4.add(label15);
 
-        bt3 = new JButton();
-        bt3.setText("Search");
-        bt3.setBounds(680, 40, 100, 30);
-        bt3.setFocusable(false);
-        bt3.addActionListener(this);
-        panel4.add(bt3);
+        // bt3 = new JButton();
+        // bt3.setText("Search");
+        // bt3.setBounds(680, 40, 100, 30);
+        // bt3.setFocusable(false);
+        // bt3.addActionListener(this);
+        // panel4.add(bt3);
 
         bt4 = new JButton();
         bt4.setText("Delete Product");
         bt4.setBounds(380, 200, 140, 30);
         bt4.setFocusable(false);
-        bt4.setEnabled(false);
+        bt4.setEnabled(true);
         bt4.addActionListener(this);
         panel4.add(bt4);
 
@@ -323,6 +329,8 @@ public class TabbedInventory extends JFrame implements ActionListener {
         super.add(tp);
 
     }
+
+    
 
     public void actionPerformed(ActionEvent ae) {
         if (ae.getSource() == exitButton) {
@@ -365,35 +373,10 @@ public class TabbedInventory extends JFrame implements ActionListener {
             DefTM.setDataVector(im.getData(), im.getHeaderColumn());
             DefTM.fireTableDataChanged();
 
-        } else if (ae.getSource() == bt3) {
-            File inventoryFile = new File("./inventoryFile.txt");
+        }  else if (ae.getSource() == bt4) {
             String name = tf10.getText();
-
-            // if (im.boolCheckOldData(name, inventoryFile)) {
-            //     panel4.add(label14);
-            //     bt4.setEnabled(true);
-            //     panel4.remove(label15);
-
-            //     super.repaint();
-            // } else {
-            //     panel4.remove(label14);
-            //     panel4.add(label15);
-            //     bt4.setEnabled(false);
-            //     super.repaint();
-            // }
-
-        } else if (ae.getSource() == bt4) {
-            String name = tf10.getText();
-            File dataFile = new File("./inventoryFile.txt");
-            // String dataa[] = im.checkOldData(name, dataFile);
-            // if (im.getLineNumber(dataFile) > 1) {
-            //     im.deleteData(dataa, dataFile);
-            //     panel4.remove(label14);
-            //     bt4.setEnabled(false);
-            //     tf10.setText("");
-            // } else {
-            //     JOptionPane.showMessageDialog(this, "Can not delete any more rows");
-            // }
+            int primaryKey = dml.getPrimaryKey(TABLENAME, name, "PRD_NAME", "PRD_ID");
+            im.deleteInventory(primaryKey);
 
             DefTM.setDataVector(im.getData(), im.getHeaderColumn());
             DefTM.fireTableDataChanged();

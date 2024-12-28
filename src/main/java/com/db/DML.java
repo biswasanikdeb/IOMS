@@ -1,18 +1,21 @@
 package com.db;
 
+
 import java.awt.Component;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.Vector;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.swing.JOptionPane;
 
 import com._String.Sanitize;
 
 public class DML extends conn {
-
+    private static final Logger LOGGER = Logger.getLogger(conn.class.getName());
     // adds data
     public boolean addToCustomerTable(String name, String username, String gender, String phone, String dob,
             Component parentComponent) {
@@ -139,7 +142,7 @@ public class DML extends conn {
     }
 
     public void addProducts(String PRD_NAME, int PRD_BPRICE, int PRD_SPRICE, int PRD_QTY) {
-        String rowLen = "SELECT COUNT(PRD_ID) FROM PRODUCTS";
+        String rowLen = "SELECT MAX(NVL(\"PRD_ID\",0)) FROM PRODUCTS";
         int length = 0;
         try {
             PreparedStatement rowLenCount = super.runStatement(rowLen);
@@ -241,6 +244,16 @@ public class DML extends conn {
             pstmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
+        }
+    }
+    public void deleteRow(String tableName, String primaryKeyColumn, int primaryKeyValue) {
+        String statement = "DELETE FROM " + tableName + " WHERE " + primaryKeyColumn + " = '" + primaryKeyValue + "'";
+        try {
+            PreparedStatement pstmt = super.runStatement(statement);
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            LOGGER.log(Level.SEVERE, "SQL Exception", e);
+
         }
     }
 }

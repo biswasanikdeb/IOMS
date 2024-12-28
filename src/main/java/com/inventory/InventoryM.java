@@ -46,5 +46,7 @@ public class InventoryM extends DataManagement {
         }
 
     }
-
+    public void deleteInventory(int id) {
+        dml.deleteRow(TABLENAME, "PRD_ID", id);
+    }
 }
