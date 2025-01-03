@@ -6,8 +6,9 @@ target/
 *.text
 goal.txt
 src/main/java/com/gui/sample
-
-
+src/main/java/com/temp
+customerDataBase/
+admin.txt
 
 
 

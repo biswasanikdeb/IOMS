@@ -77,7 +77,6 @@ public class DML extends conn {
         }
         return false;
     }
-
     // adds data to auth table...only for client/customer only
     public void addToAuthTable(String username, String password, Component parentComponent) {
 
@@ -104,7 +103,6 @@ public class DML extends conn {
         }
 
     }
-
     public int getRowCount(String tableName) {
         String statement = "SELECT COUNT(*) FROM " + tableName;
         ResultSet rs = super.runQuery(statement);
@@ -118,7 +116,19 @@ public class DML extends conn {
         }
         return rowCount;
     }
-
+    public int generateId(String tablename,String primarykey){
+        String statement = "SELECT MAX(NVL("+primarykey+",0)) FROM "+tablename;
+        ResultSet rs = super.runQuery(statement);
+        int id = 0;
+        try {
+            if (rs.next()) {
+                id = rs.getInt(1)+1;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return id;
+    }
     public String[] getProducts() {
         String statement = "SELECT PRD_NAME FROM PRODUCTS";
         String len = "SELECT COUNT(PRD_NAME) FROM PRODUCTS";
@@ -131,17 +141,17 @@ public class DML extends conn {
                 length = rs1.getInt(1);
             }
             products = new String[length];
+            int i = 0;
             while (rs.next()) {
-                for (int i = 0; i < length; i++) {
+                
                     products[i] = rs.getString(1);
-                }
+                    i++;
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return products;
     }
-
     public void addProducts(String PRD_NAME, int PRD_BPRICE, int PRD_SPRICE, int PRD_QTY) {
         String rowLen = "SELECT MAX(NVL(\"PRD_ID\",0)) FROM PRODUCTS";
         int length = 0;
@@ -169,7 +179,6 @@ public class DML extends conn {
             e.printStackTrace();
         }
     }
-
     public Object[][] getTableData(String tableName) {
         String statement = "SELECT * FROM " + tableName;
         ResultSet rs = super.runQuery(statement);
@@ -191,7 +200,6 @@ public class DML extends conn {
         }
         return data;
     }
-
     public Vector<String> getSuggestions(String text, String tableName, String columnName) {
         String statement = "SELECT " + columnName + " FROM " + tableName + " WHERE " + columnName + " LIKE '%" + text
                 + "%'";
@@ -209,7 +217,6 @@ public class DML extends conn {
         }
         return data;
     }
-
     public int getPrimaryKey(String tableName, String keyValue, String keyValueColumn, String primaryColumnName) {
         String statement = "SELECT " + primaryColumnName + " FROM " + tableName + " WHERE " + keyValueColumn + " = '"
                 + keyValue + "'";
@@ -224,9 +231,61 @@ public class DML extends conn {
         }
         return primaryKey;
     }
-
-    public void updateTable(String tableName, String columnName, String value, String primaryKeyColumn,
-            int primaryKeyValue) {
+    public int getColumn(String tableName, String keyValue, String keyValueColumn, String primaryColumnName) {
+        String statement = "SELECT " + primaryColumnName + " FROM " + tableName + " WHERE " + keyValueColumn + " = '"
+                + keyValue + "'";
+        ResultSet rs = super.runQuery(statement);
+        int primaryKey = 0;
+        try {
+            if (rs.next()) {
+                primaryKey = rs.getInt(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return primaryKey;
+    }
+    public String getColumnS(String tableName, String keyValue, String keyValueColumn, String primaryColumnName) {
+        String statement = "SELECT " + primaryColumnName + " FROM " + tableName + " WHERE " + keyValueColumn + " = '"
+                + keyValue + "'";
+        ResultSet rs = super.runQuery(statement);
+        String primaryKey = null;
+        try {
+            if (rs.next()) {
+                primaryKey = rs.getString(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return primaryKey;
+    }
+    public int getColumnTotal(String tablename, String columnname) {
+        String statement = "SELECT SUM(" + columnname + ") FROM " + tablename;
+        ResultSet rs = super.runQuery(statement);
+        int total = 0;
+        try {
+            if (rs.next()) {
+                total = rs.getInt(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return total;
+    }
+    public void addToBasket(String name,int qty){
+        
+        String statement = "INSERT INTO BASKET(PRD_ID,QTY) VALUES(?,?)";
+        try {
+            PreparedStatement pstmt = super.runStatement(statement);
+            pstmt.setInt(1, getPrimaryKey("PRODUCTS",name, "PRD_NAME", "PRD_ID"));
+            pstmt.setInt(2, qty);
+            pstmt.executeUpdate();
+            pstmt.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    public void updateTable(String tableName, String columnName, String value, String primaryKeyColumn,int primaryKeyValue) {
         String statement = "UPDATE " + tableName + " SET " + columnName + " = '" + value + "' WHERE " + primaryKeyColumn
                 + " = '" + primaryKeyValue + "'";
         try {
@@ -236,8 +295,7 @@ public class DML extends conn {
             e.printStackTrace();
         }
     }
-    public void updateTable(String tableName, String columnName, int value, String primaryKeyColumn,
-            int primaryKeyValue) {
+    public void updateTable(String tableName, String columnName, int value, String primaryKeyColumn,int primaryKeyValue) {
         String statement = "UPDATE " + tableName + " SET " + columnName + " = '" + value + "' WHERE " + primaryKeyColumn
                 + " = '" + primaryKeyValue + "'";
         try {

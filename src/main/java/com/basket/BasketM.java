@@ -1,52 +1,53 @@
 package com.basket;
 
+import java.awt.Component;
 import java.io.File;
-import java.util.Scanner;
+
+import javax.swing.JOptionPane;
 
 import com.newCommon.*;
-
+import com.db.DML;
 public class BasketM extends DataManagement {
+    DML dml = new DML();
+    private final String VIEWNAME = "BASKETVIEW";
     // table related data
-    private String headerColumn[] = new String[] { "SL", "Item Name ", "Unit Price", "Qty",
+
+    private String headerColumn[] = new String[] { "Item Name ", "Unit Price", "Qty",
             "Price" };
-    private Object data[][];
     File basketFile = new File("./basket.txt");
 
     
 
-    public Object[][] getData() { // reads the line number first then get the data by the line
-        try {
-            Scanner sc = new Scanner(basketFile);
-
-            int len = getLineNumber(basketFile);
-
-            data = new Object[len][5];
-            for (int i = 0; sc.hasNextLine(); i++) {
-                data[i] = readData(basketFile, sc);
-            }
-            sc.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return data;
-    }
+    public Object[][] getData() { return dml.getTableData(VIEWNAME);}
 
     public String[] getHeaderColumn() {
         return this.headerColumn;
     }
 
-    //fetch data from the 
-    public void addToBasketData(String name, String unitPrice, String qty) {
-        int uPrice = Integer.parseInt(unitPrice);
+    public void addToBasketData(String name, String qty, Component parent) {
         int quantity = Integer.parseInt(qty);
-        int price = uPrice*quantity;
-
-
-        addData(getLineNumber(basketFile)+1, name, unitPrice, qty, Integer.toString(price), basketFile);
-
+        if (!name.equals(dml.getColumnS("BASKETVIEW", name, "\"Item_name\"", "\"Item_name\""))) {
+            if (quantity> dml.getColumn("PRODUCTS", name, "PRD_NAME", "AVL_QTY")) {
+                JOptionPane.showMessageDialog(parent, "Not enough stock available", "Error", JOptionPane.ERROR_MESSAGE);
+                return;  
+            }
+            else{
+                dml.addToBasket(name, quantity);       
+            }
+        }else{
+            int newQty = dml.getColumn("BASKETVIEW", name, "\"Item_name\"", "\"qty\"")+quantity;
+            if (newQty > dml.getColumn("PRODUCTS", name, "PRD_NAME", "AVL_QTY")) {
+                JOptionPane.showMessageDialog(parent, "Not enough stock available", "Error", JOptionPane.ERROR_MESSAGE);
+                return;  
+            }
+            else{
+                dml.updateTable("BASKET", "Qty", newQty, "PRD_ID", dml.getPrimaryKey("PRODUCTS",name, "PRD_NAME", "PRD_ID"));
+            }
+        }
     }
-    public void modifyInventory(){
-        
+    public int total(){ return dml.getColumnTotal(VIEWNAME, "\"total_price\"");}
+    public int totalItem(){ return dml.getRowCount(VIEWNAME);}
+    public void deleteBasket(String name) {
+        dml.deleteRow("BASKET", "PRD_ID", dml.getPrimaryKey("PRODUCTS",name, "PRD_NAME", "PRD_ID"));
     }
-
 }

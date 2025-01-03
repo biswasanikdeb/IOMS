@@ -1,3 +1,0 @@
-1	classic black (glossy)	500	1	500
-2	clear shade	400	1	400
-3	aviator og	160	2	320

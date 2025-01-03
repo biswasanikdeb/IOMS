@@ -11,7 +11,7 @@ import java.util.Scanner;
 import com.newCommon.DataManagement;
 
 public class OrderM extends DataManagement {
-    private String headerColumn[] = new String[] {"SL. No","Customer Name ","Total QTY", "Total price","Date", "Phone Number" };
+    private String headerColumn[] = new String[] {"Order ID","Customer Name ","Total QTY", "Total price","Date", "Phone Number" };
     private  Object data[][];
     File orderListFile = new File("./orderlist.txt");
     
