@@ -33,11 +33,11 @@ public class TabbedOrder extends JFrame implements ActionListener{
     InventoryM im = new InventoryM();
     OrderM om = new OrderM();
     private JPanel panel1,panel2;
-    private JLabel label1,label2,label3,label4,label5,label6,label7,label8,label9,label10;
+    private JLabel label1,label2,label3,label4,label5,label6,label7,label8,label9,label10,label11;
     private JTabbedPane tp;
     private JButton exitButton,remfrmBsktBtn;
     private Font f1;
-    private JTextField tf1,tf2,tf3;
+    private JTextField tf1,tf2,tf3,tf4;
     private JButton addPrdBtn,confirmBtn;
     @SuppressWarnings("rawtypes")
     private JComboBox cb;
@@ -159,104 +159,86 @@ public class TabbedOrder extends JFrame implements ActionListener{
         label2.setBounds(50,100,200,30);
         label2.setFont(f1);
         panel2.add(label2);
-		
-		tf2 = new JTextField();
+            
+            tf2 = new JTextField();
         tf2.setBounds(260, 100, 350, 30);
         panel2.add(tf2);
 
+        label11 = new JLabel("Address :");
+        label11.setBounds(50,160,200,30);
+        label11.setFont(f1);
+        panel2.add(label11);
 
-        
-
-        label3 = new JLabel("Quantity:");
-        label3.setBounds(320,160,170,30);
-        label3.setFont(f1);
-        panel2.add(label3);
-		
-		
-
-        tf3 = new JTextField();
-        tf3.setBounds(470, 160, 50, 30);
-        panel2.add(tf3);
-		
-		
-		addPrdBtn = new JButton("Add");
-        addPrdBtn.setBounds(600,360,100,30);
-        addPrdBtn.setFocusable(false);
-        addPrdBtn.addActionListener(this);
-        panel2.add(addPrdBtn);
-		
-		
-		
-		
+        tf4 = new JTextField();
+        tf4.setBounds(260, 160, 350, 30);
+        panel2.add(tf4);
 
         label4 = new JLabel("Items :");
-        label4.setBounds(50,160,200,30);
+        label4.setBounds(50,220,200,30);
         label4.setFont(f1); 
         panel2.add(label4);
 
-       
+        cb = new JComboBox(dml.getProducts());
+        cb.setBounds(130,220,150,30);
+        cb.addActionListener(this);
+        panel2.add(cb);
+        cb.setForeground(Color.BLUE);
+        cb.setBackground(Color.WHITE);
+
+        label3 = new JLabel("Quantity:");
+        label3.setBounds(320,220,170,30);
+        label3.setFont(f1);
+        panel2.add(label3);
+
+        tf3 = new JTextField();
+        tf3.setBounds(470, 220, 50, 30);
+        panel2.add(tf3);
+
+        addPrdBtn = new JButton("Add");
+        addPrdBtn.setBounds(600,220,100,30);
+        addPrdBtn.setFocusable(false);
+        addPrdBtn.addActionListener(this);
+        panel2.add(addPrdBtn);
 
         label5 = new JLabel("Price :");
-        label5.setBounds(50,200,200,30);
+        label5.setBounds(50,260,200,30);
         label5.setFont(f1);
         panel2.add(label5);
 
-        
+        label8 = new JLabel();
+        label8.setBounds(125,260,200,30);
+        label8.setFont(f1);
+        panel2.add(label8);
 
         label6 = new JLabel("Total Items :");
-        label6.setBounds(50,240,200,30);
+        label6.setBounds(50,300,200,30);
         label6.setFont(f1);
         panel2.add(label6);
 
         label10 = new JLabel();
-        label10.setBounds(165,240,200,30);
+        label10.setBounds(165,300,200,30);
         label10.setFont(f1);
         panel2.add(label10);
-		
-		label7 = new JLabel("Total price :");
-        label7.setBounds(350,240,200,30);
+
+        label7 = new JLabel("Total price :");
+        label7.setBounds(350,300,200,30);
         label7.setFont(f1);
         panel2.add(label7);
 
         label9 = new JLabel();
-        label9.setBounds(475,240,200,30);
+        label9.setBounds(475,300,200,30);
         label9.setFont(f1);
         panel2.add(label9);
 
-
-       
-        
-		cb = new JComboBox(dml.getProducts());
-		cb.setBounds(130,160,150,30);
-        
-        cb.addActionListener(this);
-		panel2.add(cb);
-		cb.setForeground(Color.BLUE);
-		cb.setBackground(Color.WHITE);
-
-        label8 = new JLabel();
-        label8.setBounds(125,200,200,30);
-        label8.setFont(f1);
-        panel2.add(label8);
-
-		
-		
-	
-
-        confirmBtn = new JButton("Confrim");
+        confirmBtn = new JButton("Confirm");
         confirmBtn.setBounds(400,400,100,30);
         confirmBtn.setFocusable(false);
         confirmBtn.addActionListener(this);
         panel2.add(confirmBtn);
 
-       
-        
-
-
         tp.addTab("Order List",panel1);
         tp.addTab("Create Custom Order",panel2);
-        
-        
+
         exitButton = new JButton("Exit");
         exitButton.setBounds(350, 500, 200, 35);
         exitButton.addActionListener(this);
@@ -326,12 +308,20 @@ public class TabbedOrder extends JFrame implements ActionListener{
         if (ae.getSource()==confirmBtn) {
             String name = tf1.getText();
             String phoneNumber = tf2.getText();
-            if (name.isEmpty()||phoneNumber.isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Please Fill up name and Phone Number");
+            String address = tf4.getText();
+            int custoemrId;
+            if (name.isEmpty()||phoneNumber.isEmpty() || address.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Please Fill up name and Phone Number and address");
             }else{
+                if (om.isNewUser(phoneNumber)) {
+                    custoemrId = dml.forceAddToCustomerTable(name, phoneNumber, address);
+                }
+                else{
+                    custoemrId = dml.getPrimaryKey("CUSTOMERS", phoneNumber, "PHONE#", "CUSTOMER_ID");
+                }
+                om.createOrder(custoemrId);
                 
 
-                om.addToOrderData(name, totalPrice, totalQty,phoneNumber);
                 DefTM1.setDataVector(om.getData(), om.getHeaderColumn());
                 DefTM1.fireTableDataChanged();
                 totalPrice =0;
@@ -340,7 +330,6 @@ public class TabbedOrder extends JFrame implements ActionListener{
                 label10.setText("");
                 tf1.setText("");
                 tf2.setText("");
-                String path ="./CustomerDataBase/"+name+"/" ;
                 basket.dispose();
                 flag= false;
                 //<<-----data modify of inventory after order confirm------->>>
