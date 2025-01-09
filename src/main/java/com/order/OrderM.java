@@ -1,5 +1,8 @@
 package com.order;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
 import com.db.DML;
 
 public class OrderM extends DML {
@@ -30,5 +33,13 @@ public class OrderM extends DML {
         truncateTable("BASKET");
         return orderId;
     }
-    
+    public String getStatus(int order_id){
+        boolean status = checkStatus("tablename", order_id,"statusColumn");
+        if (!status) {
+            return "Delivered";
+        }
+        else{
+            return "Pending";
+        }
+    }
 }
