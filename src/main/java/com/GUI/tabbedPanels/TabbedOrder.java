@@ -4,9 +4,8 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseListener;
 
-import java.io.File;
-import java.util.Scanner;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -25,18 +24,21 @@ import javax.swing.table.TableColumnModel;
 import com.GUI.Welcome;
 import com.basket.BasketM;
 import com.inventory.InventoryM;
-import com.newCommon.DataManagement;
 import com.order.OrderM;
-
+import com.db.DML;
 
 public class TabbedOrder extends JFrame implements ActionListener{
-    private JPanel panel1,panel2,jp;
-    private JLabel label1,label2,label3,label4,label5,label6,label7,label8,label9,label10;
+    private DML dml = new DML();
+    BasketM bm = new BasketM();
+    InventoryM im = new InventoryM();
+    OrderM om = new OrderM();
+    private JPanel panel1,panel2;
+    private JLabel label1,label2,label3,label4,label5,label6,label7,label8,label9,label10,label11;
     private JTabbedPane tp;
-    private JButton exitButton;
+    private JButton exitButton,remfrmBsktBtn;
     private Font f1;
-    private JTextField tf1,tf2,tf3;
-    private JButton bt1,bt2;
+    private JTextField tf1,tf2,tf3,tf4;
+    private JButton addPrdBtn,confirmBtn;
     @SuppressWarnings("rawtypes")
     private JComboBox cb;
     private boolean flag;
@@ -85,16 +87,18 @@ public class TabbedOrder extends JFrame implements ActionListener{
         clmModel.getColumn(1).setPreferredWidth(180);
         clmModel.getColumn(2).setPreferredWidth(70);
         clmModel.getColumn(3).setPreferredWidth(70);
-        clmModel.getColumn(4).setPreferredWidth(90);
         jt.getTableHeader().setResizingAllowed(false);
         jt.getTableHeader().setReorderingAllowed(false);
 
         js = new JScrollPane(jt);
         
-
-        jp = new JPanel();
-        jp.add(js);
+        remfrmBsktBtn = new JButton("remove");
+        remfrmBsktBtn.setBounds(250, 500, 100, 30);
+        remfrmBsktBtn.addActionListener(this);   
+     
+        
         basket.add(js);
+        basket.add(remfrmBsktBtn,BorderLayout.SOUTH);
 
 
 
@@ -107,8 +111,8 @@ public class TabbedOrder extends JFrame implements ActionListener{
 
 
 
-        tp = new JTabbedPane();
         //<<------- Order List -------->>>>
+        tp = new JTabbedPane();
         panel1 = new JPanel( new BorderLayout());
         panel1.setSize(900,600);
         OrderM om = new OrderM();
@@ -155,110 +159,86 @@ public class TabbedOrder extends JFrame implements ActionListener{
         label2.setBounds(50,100,200,30);
         label2.setFont(f1);
         panel2.add(label2);
-		
-		tf2 = new JTextField();
+            
+            tf2 = new JTextField();
         tf2.setBounds(260, 100, 350, 30);
         panel2.add(tf2);
 
+        label11 = new JLabel("Address :");
+        label11.setBounds(50,160,200,30);
+        label11.setFont(f1);
+        panel2.add(label11);
 
-        
-
-        label3 = new JLabel("Quantity:");
-        label3.setBounds(320,160,170,30);
-        label3.setFont(f1);
-        panel2.add(label3);
-		
-		
-
-        tf3 = new JTextField();
-        tf3.setBounds(470, 160, 50, 30);
-        panel2.add(tf3);
-		
-		
-		bt1 = new JButton("Add");
-        bt1.setBounds(600,160,100,30);
-        bt1.setFocusable(false);
-        bt1.addActionListener(this);
-        panel2.add(bt1);
-		
-		
-		
-		
+        tf4 = new JTextField();
+        tf4.setBounds(260, 160, 350, 30);
+        panel2.add(tf4);
 
         label4 = new JLabel("Items :");
-        label4.setBounds(50,160,200,30);
+        label4.setBounds(50,220,200,30);
         label4.setFont(f1); 
         panel2.add(label4);
 
-       
+        cb = new JComboBox(dml.getProducts());
+        cb.setBounds(130,220,150,30);
+        cb.addActionListener(this);
+        panel2.add(cb);
+        cb.setForeground(Color.BLUE);
+        cb.setBackground(Color.WHITE);
+
+        label3 = new JLabel("Quantity:");
+        label3.setBounds(320,220,170,30);
+        label3.setFont(f1);
+        panel2.add(label3);
+
+        tf3 = new JTextField();
+        tf3.setBounds(470, 220, 50, 30);
+        panel2.add(tf3);
+
+        addPrdBtn = new JButton("Add");
+        addPrdBtn.setBounds(600,220,100,30);
+        addPrdBtn.setFocusable(false);
+        addPrdBtn.addActionListener(this);
+        panel2.add(addPrdBtn);
 
         label5 = new JLabel("Price :");
-        label5.setBounds(50,200,200,30);
+        label5.setBounds(50,260,200,30);
         label5.setFont(f1);
         panel2.add(label5);
 
-        
+        label8 = new JLabel();
+        label8.setBounds(125,260,200,30);
+        label8.setFont(f1);
+        panel2.add(label8);
 
         label6 = new JLabel("Total Items :");
-        label6.setBounds(50,240,200,30);
+        label6.setBounds(50,300,200,30);
         label6.setFont(f1);
         panel2.add(label6);
 
         label10 = new JLabel();
-        label10.setBounds(165,240,200,30);
+        label10.setBounds(165,300,200,30);
         label10.setFont(f1);
         panel2.add(label10);
-		
-		label7 = new JLabel("Total price :");
-        label7.setBounds(350,240,200,30);
+
+        label7 = new JLabel("Total price :");
+        label7.setBounds(350,300,200,30);
         label7.setFont(f1);
         panel2.add(label7);
 
         label9 = new JLabel();
-        label9.setBounds(475,240,200,30);
+        label9.setBounds(475,300,200,30);
         label9.setFont(f1);
         panel2.add(label9);
 
-
-        InventoryM im = new InventoryM();
-        Object temp[][] = im.getData();
-        Object arr[] = new Object[im.getLineNumber(new File("./inventoryFile.txt"))];
-        for(int i = 0; i<im.getLineNumber(new File("./inventoryFile.txt")); i++){
-            Object obj=temp[i][1];
-            arr[i]=obj;
-        }
-        
-		cb = new JComboBox(arr);
-		cb.setBounds(130,160,150,30);
-        
-        cb.addActionListener(this);
-		panel2.add(cb);
-		cb.setForeground(Color.BLUE);
-		cb.setBackground(Color.WHITE);
-
-        label8 = new JLabel();
-        label8.setBounds(125,200,200,30);
-        label8.setFont(f1);
-        panel2.add(label8);
-
-		
-		
-	
-
-        bt2 = new JButton("Confrim");
-        bt2.setBounds(400,400,100,30);
-        bt2.setFocusable(false);
-        bt2.addActionListener(this);
-        panel2.add(bt2);
-
-       
-        
-
+        confirmBtn = new JButton("Confirm");
+        confirmBtn.setBounds(400,400,100,30);
+        confirmBtn.setFocusable(false);
+        confirmBtn.addActionListener(this);
+        panel2.add(confirmBtn);
 
         tp.addTab("Order List",panel1);
         tp.addTab("Create Custom Order",panel2);
-        
-        
+
         exitButton = new JButton("Exit");
         exitButton.setBounds(350, 500, 200, 35);
         exitButton.addActionListener(this);
@@ -282,18 +262,16 @@ public class TabbedOrder extends JFrame implements ActionListener{
             wlc.setVisible(true);
 
         }
-        else if(ae.getSource()== bt1){
-            
-            BasketM bm = new BasketM();
-            InventoryM im = new InventoryM();
+        else if(ae.getSource()== addPrdBtn){
+
             Object temp[][] = im.getData();
             Object string[] =temp[cb.getSelectedIndex()];
             
-            if (tf3.getText()==null) {
+            if (tf3.getText().equals("")) {
                 JOptionPane.showMessageDialog(this, "Enter Quantity");
             }
             else{
-                bm.addToBasketData(string[1].toString(), string[3].toString(), tf3.getText() );
+                bm.addToBasketData(string[1].toString(), tf3.getText(), this);
                 tf3.setText("");
             }
             defTM.setDataVector(bm.getData(), bm.getHeaderColumn());
@@ -304,89 +282,46 @@ public class TabbedOrder extends JFrame implements ActionListener{
             flag = true;
 
             }
+            label9.setText(Integer.toString(bm.total()));//TOTAL PRICE
+            label10.setText(Integer.toString(bm.totalItem()));//TOTAL ITEM
             
-           try {
-                Scanner sc = new Scanner(new File("./basket.txt"));
-                DataManagement dtm = new DataManagement();
-                while(sc.hasNextLine()){
-                    String line[] = dtm.readData( new File("./basket.txt"), sc);
-                    int price = Integer.parseInt(line[4]);
-                    int qty = Integer.parseInt(line[3]);
-                    totalQty +=qty;
-                    totalPrice +=price;
-                }
-                label9.setText(Integer.toString(totalPrice));
-                totalPrice =0;
-                totalQty =0;
-                int itemNum = dtm.getLineNumber(new File("./basket.txt"));
-                label10.setText(Integer.toString(itemNum));
-                sc.close();
-                
-            } 
-            catch (Exception e) {
-            e.printStackTrace();
+           
+        }
+        if (ae.getSource()==remfrmBsktBtn) {
+            int row = jt.getSelectedRow();
+            if (row!=-1) {
+                String name = jt.getValueAt(row, 0).toString();
+                bm.deleteBasket(name);
+                defTM.setDataVector(bm.getData(), bm.getHeaderColumn());
+                defTM.fireTableDataChanged();
             }
 
         }
         if(ae.getSource()==cb){
-            InventoryM im = new InventoryM();
             Object temp[][] = im.getData();
-            Object string = temp[cb.getSelectedIndex()][3];
+            Object string = temp[cb.getSelectedIndex()][4];
             label8.setText(string.toString()); //determinig price
             
         }
         
         
-        if (ae.getSource()==bt2) {
+        if (ae.getSource()==confirmBtn) {
             String name = tf1.getText();
             String phoneNumber = tf2.getText();
-            File basketFile = new File("./basket.txt");
-            if (name.isEmpty()||phoneNumber.isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Please Fill up name and Phone Number");
+            String address = tf4.getText();
+            int custoemrId;
+            if (name.isEmpty()||phoneNumber.isEmpty() || address.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Please Fill up name and Phone Number and address");
             }else{
-                OrderM om = new OrderM();
-
-                //<<<<<<-----------------------Modify data on order basis--------------------------->>>
-                
-            //    try {
-            //     Scanner sc = new Scanner(basketFile);
-            //     Scanner sc1 = new Scanner(new File("./inventoryFile.txt"));
-            //     while (sc.hasNextLine()) {
-            //         String Data[] = om.readData(basketFile, sc);
-            //         String oldData[] =om.checkOldData(Data[1], new File("./inventoryFile.txt"));
-            //         int purchaseQty = Integer.parseInt(Data[3]);
-            //         int stockQty= Integer.parseInt(oldData[4]);
-            //         int remainingStock = stockQty - purchaseQty;
-            //         String newQt = Integer.toString(remainingStock);
-            //         om.modifyData(null, null, null, newQt, oldData, new File("./inventoryFile.txt"), sc1);
-
-
-            //     }
-            //     sc.close();
-            //     sc1.close();
-            //    } catch (Exception e) {e.printStackTrace();}
-
-
-
-
-                try {
-                    Scanner sc = new Scanner(new File("./basket.txt"));
-                    DataManagement dtm = new DataManagement();
-                    while(sc.hasNextLine()){
-                        String line[] = dtm.readData( new File("./basket.txt"), sc);
-                        int price = Integer.parseInt(line[4]);
-                        int qty = Integer.parseInt(line[3]);
-                        totalQty +=qty;
-                        totalPrice +=price;
-                    }
-                    
-                    sc.close();
-                    
-                } 
-                catch (Exception e) {
-                e.printStackTrace();
+                if (om.isNewUser(phoneNumber)) {
+                    custoemrId = dml.forceAddToCustomerTable(name, phoneNumber, address);
                 }
-                om.addToOrderData(name, totalPrice, totalQty,phoneNumber);
+                else{
+                    custoemrId = dml.getPrimaryKey("CUSTOMERS", phoneNumber, "PHONE#", "CUSTOMER_ID");
+                }
+                om.createOrder(custoemrId);
+                
+
                 DefTM1.setDataVector(om.getData(), om.getHeaderColumn());
                 DefTM1.fireTableDataChanged();
                 totalPrice =0;
@@ -395,31 +330,11 @@ public class TabbedOrder extends JFrame implements ActionListener{
                 label10.setText("");
                 tf1.setText("");
                 tf2.setText("");
-                String path ="./CustomerDataBase/"+name+"/" ;
                 basket.dispose();
                 flag= false;
                 //<<-----data modify of inventory after order confirm------->>>
 
-                File database = new File(path);
-                database.mkdirs();
                 
-                
-                try {
-                    File check = new File(path+"basket.txt");
-                    if (check.exists()==false) {
-                        basketFile.renameTo(new File(path+"basket.txt"));
-                    }
-                    else{
-                        File dir = new File(path);
-                        File files[] = dir.listFiles();
-                        int len = files.length;
-                        basketFile.renameTo(new File(path+"basket"+len+".txt"));
-
-                    }
-                    basketFile.createNewFile();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
             }
         }
     } 

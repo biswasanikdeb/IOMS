@@ -238,9 +238,9 @@ public class SignUp extends JFrame implements ActionListener, MouseListener {
 				JOptionPane.showMessageDialog(this, "Fillup the whole Form");
 			} else {
 				DML dml = new DML();
-				boolean response = dml.addToCustomerTable(name, userName, gender, phone, dob,addr, this);
-				if (response) {
-					dml.addToAuthTable(userName, pass,this);
+				int response = dml.addToCustomerTable(name, userName, gender, phone, dob,addr, this);
+				if (response!=0) {
+					dml.addToAuthTable(userName, pass,response,this);
 					dispose();
 					LoginPage lp = new LoginPage();
 					lp.setVisible(true);

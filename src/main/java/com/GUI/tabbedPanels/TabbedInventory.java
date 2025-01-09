@@ -5,7 +5,6 @@ import java.awt.BorderLayout;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
 import java.util.Vector;
 
 import javax.swing.ImageIcon;
@@ -32,11 +31,11 @@ public class TabbedInventory extends JFrame implements ActionListener {
     private JPanel panel1, panel2, panel3, panel4;
     private JTextField tf, tf2, tf3, tf4, tf5, tf6, tf7, tf8, tf9, tf10;
     private JLabel label, label1, label2, label3, label4, label5, label6, label7, label8, label9, label10, label11,
-            label12, label13, label14, label15;
+            label12;
     private JTabbedPane tp;
     private JTable jt;
     private JScrollPane js;
-    private JButton bt1, bt2, bt3, bt4, exitButton, saveButton;
+    private JButton bt1, bt2, bt4, exitButton, saveButton;
     private TableColumnModel clmModel;
     private Font f1;
     private DefaultTableModel DefTM;
