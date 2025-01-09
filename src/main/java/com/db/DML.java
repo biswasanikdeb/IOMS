@@ -169,6 +169,25 @@ public class DML extends conn {
             e.printStackTrace();
         }
     }
+    public boolean checkStatus(String tablename, int id, String column){
+        String statement= "SELECT STATUS FROM "+tablename+" WHERE "+column+" = "+id;
+        ResultSet rs = super.runQuery(statement);
+        boolean status = false;
+        try{
+            while(rs.next()){
+                if(rs.getString(1).equals("active")){
+                    status = false;
+                }
+                else{
+                    status = true;
+                }
+            }
+        }catch(SQLException e){
+            e.printStackTrace();
+            return false;            
+        }
+        return status;
+    }
 
     public Object[][] getTableData(String tableName) {
         String statement = "SELECT * FROM " + tableName;

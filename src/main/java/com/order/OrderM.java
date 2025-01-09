@@ -8,9 +8,11 @@ import java.time.LocalDate;
 
 import java.util.Scanner;
 
+import com.db.DML;
 import com.newCommon.DataManagement;
 
 public class OrderM extends DataManagement {
+    DML dml = new DML();
     private String headerColumn[] = new String[] {"SL. No","Customer Name ","Total QTY", "Total price","Date", "Phone Number" };
     private  Object data[][];
     File orderListFile = new File("./orderlist.txt");
@@ -47,6 +49,16 @@ public class OrderM extends DataManagement {
         String totalPrice = Integer.toString(totalP);
         String totalQty = Integer.toString(totalQ);
         addData(getLineNumber(orderListFile)+1, customerName, totalQty, totalPrice,currDate.toString(), phoneNumber , orderListFile);
+    }
+
+    public String getStatus(int order_id){
+        boolean status = dml.checkStatus("tablename", order_id,"statusColumn");
+        if (!status) {
+            return "Delivered";
+        }
+        else{
+            return "Pending";
+        }
     }
 }
 
