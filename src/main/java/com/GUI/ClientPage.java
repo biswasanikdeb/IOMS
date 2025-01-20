@@ -22,12 +22,14 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
 
 import com.basket.BasketM;
+import com.customer.CustomerM;
 import com.db.DML;
 import com.inventory.InventoryM;
 import com.newCommon.DataManagement;
 import com.order.OrderM;
 
 public class ClientPage extends JFrame implements ActionListener {
+    private String username;
     private JPanel panel2;
     private JFrame basket;
     private ImageIcon logo = new ImageIcon("./images/logo.png");
@@ -36,7 +38,7 @@ public class ClientPage extends JFrame implements ActionListener {
     private TableColumnModel clmModel;
     private JScrollPane js;
     private Font f1;
-    private JLabel labelphone, labelname, label1, label2, label3, label4, label5, label6, label7, label8, label9,
+    private JLabel labelphone, labelname,labelAddr, label1, label2, label3, label4, label5, label6, label7, label8, label9,
             label10,label11;
     private JTextField tf1;
     private JButton addPrdBtn, confirmBtn, exitButton, remfrmBsktBtn;
@@ -46,17 +48,22 @@ public class ClientPage extends JFrame implements ActionListener {
     private int totalPrice, totalQty;
     private String dataArray[] = new String[]{ "1", "2", "3", "4", "5" };
     private DML dml = new DML();
+    private BasketM bm = new BasketM();
+    private InventoryM im = new InventoryM();
+    private CustomerM cm = new CustomerM();
+    private OrderM om = new OrderM();
+
 
     @SuppressWarnings({ "rawtypes", "unchecked" })
     public ClientPage(String username) {
-
+        
         super("Welcome to Menev.Store");
         super.setSize(900, 600); // (x, y, width, height);
         super.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         super.setLocationRelativeTo(null);
         super.setResizable(false);
         super.setIconImage(logo.getImage());
-
+        this.username = username;
         basket = new JFrame("Basket");
         basket.setSize(400, 600);
 
@@ -102,7 +109,7 @@ public class ClientPage extends JFrame implements ActionListener {
         label1.setFont(f1);
         panel2.add(label1);
 
-        labelname = new JLabel(dataArray[2]);
+        labelname = new JLabel(cm.getName(username));
         labelname.setBounds(220, 40, 200, 30);
         labelname.setFont(f1);
         panel2.add(labelname);
@@ -112,15 +119,21 @@ public class ClientPage extends JFrame implements ActionListener {
         label2.setFont(f1);
         panel2.add(label2);
         
-        labelphone = new JLabel(dataArray[4]);
+        labelphone = new JLabel(cm.getPhone(username));
         labelphone.setBounds(220, 100, 200, 30);
         labelphone.setFont(f1);
         panel2.add(labelphone);
 
         label11 = new JLabel("Address :");
-        label11.setBounds(50,160,200,30);
+        label11.setBounds(50,140,200,30);
         label11.setFont(f1);
         panel2.add(label11);
+
+        labelAddr = new JLabel(cm.getAddr(username));
+        labelAddr.setBounds(220, 140, 200, 30);
+        labelAddr.setFont(f1);
+        panel2.add(labelAddr);
+
 
         label4 = new JLabel("Items :");
         label4.setBounds(50, 200, 200, 30);
@@ -200,46 +213,36 @@ public class ClientPage extends JFrame implements ActionListener {
             System.exit(0);
 
         } else if (ae.getSource() == addPrdBtn) {
-
-            BasketM bm = new BasketM();
-            InventoryM im = new InventoryM();
             Object temp[][] = im.getData();
-            Object string[] = temp[cb.getSelectedIndex()];
-
-            if (tf1.getText() == null) {
+            Object string[] =temp[cb.getSelectedIndex()];
+            
+            if (tf1.getText().equals("")) {
                 JOptionPane.showMessageDialog(this, "Enter Quantity");
-            } else {
-                bm.addToBasketData(string[1].toString(), tf1.getText(),this);
+            }
+            else{
+                bm.addToBasketData(string[1].toString(), tf1.getText(), this);
                 tf1.setText("");
             }
             defTM.setDataVector(bm.getData(), bm.getHeaderColumn());
             defTM.fireTableDataChanged();
-
-            if (flag == false) {
-                basket.setVisible(true);
-                flag = true;
+            
+            if(flag == false){
+            basket.setVisible(true);
+            flag = true;
 
             }
-
-            try {
-                Scanner sc = new Scanner(new File("./basket.txt"));
-                DataManagement dtm = new DataManagement();
-                while (sc.hasNextLine()) {
-                    String line[] = dtm.readData(new File("./basket.txt"), sc);
-                    int price = Integer.parseInt(line[4]);
-                    int qty = Integer.parseInt(line[3]);
-                    totalQty += qty;
-                    totalPrice += price;
-                }
-                label9.setText(Integer.toString(totalPrice));
-                totalPrice = 0;
-                totalQty = 0;
-                int itemNum = dtm.getLineNumber(new File("./basket.txt"));
-                label10.setText(Integer.toString(itemNum));
-                sc.close();
-
-            } catch (Exception e) {
-                e.printStackTrace();
+            label9.setText(Integer.toString(bm.total()));//TOTAL PRICE
+            label10.setText(Integer.toString(bm.totalItem()));//TOTAL ITEM
+            
+           
+        }
+        if (ae.getSource()==remfrmBsktBtn) {
+            int row = jt.getSelectedRow();
+            if (row!=-1) {
+                String name = jt.getValueAt(row, 0).toString();
+                bm.deleteBasket(name);
+                defTM.setDataVector(bm.getData(), bm.getHeaderColumn());
+                defTM.fireTableDataChanged();
             }
 
         }
@@ -252,60 +255,15 @@ public class ClientPage extends JFrame implements ActionListener {
         }
 
         if (ae.getSource() == confirmBtn) {
-            String name = dataArray[2];
-            String phoneNumber = dataArray[4];
-            File basketFile = new File("./basket.txt");
-            if (name.isEmpty() || phoneNumber.isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Please Fill up name and Phone Number");
-            } else {
-                OrderM om = new OrderM();
-
-                try {
-                    Scanner sc = new Scanner(new File("./basket.txt"));
-                    DataManagement dtm = new DataManagement();
-                    while (sc.hasNextLine()) {
-                        String line[] = dtm.readData(new File("./basket.txt"), sc);
-                        int price = Integer.parseInt(line[4]);
-                        int qty = Integer.parseInt(line[3]);
-                        totalQty += qty;
-                        totalPrice += price;
-                    }
-
-                    sc.close();
-
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                om.addToOrderData(name, totalPrice, totalQty, phoneNumber);
-
-                totalPrice = 0;
-                totalQty = 0;
-                label9.setText("");
-                label10.setText("");
-                String path = "./CustomerDataBase/" + name + "/";
-                basket.dispose();
-                flag = false;
-                // <<-----data modify of inventory after order confirm------->>>
-
-                File database = new File(path);
-                database.mkdirs();
-
-                try {
-                    File check = new File(path + "basket.txt");
-                    if (check.exists() == false) {
-                        basketFile.renameTo(new File(path + "basket.txt"));
-                    } else {
-                        File dir = new File(path);
-                        File files[] = dir.listFiles();
-                        int len = files.length;
-                        basketFile.renameTo(new File(path + "basket" + len + ".txt"));
-
-                    }
-                    basketFile.createNewFile();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+           
+            om.createOrder(cm.getCustomerID(username));
+            label9.setText("");
+            label10.setText("");
+            tf1.setText("");
+                
+            basket.dispose();
+            flag= false;      
             }
         }
     }
-}
+

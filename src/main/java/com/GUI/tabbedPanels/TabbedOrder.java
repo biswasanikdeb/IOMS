@@ -72,7 +72,6 @@ public class TabbedOrder extends JFrame implements ActionListener{
         basket.setResizable(false);
         basket.setIconImage(logo.getImage());
 
-        BasketM bm = new BasketM();
         defTM = new DefaultTableModel(bm.getData(),bm.getHeaderColumn());
         jt = new JTable(defTM){
             public boolean editCellAt(int row, int column, java.util.EventObject e) {
@@ -98,22 +97,10 @@ public class TabbedOrder extends JFrame implements ActionListener{
         basket.add(js);
         basket.add(remfrmBsktBtn,BorderLayout.SOUTH);
 
-
-
-
-
-
-
-
-
-
-
-
         //<<------- Order List -------->>>>
         tp = new JTabbedPane();
         panel1 = new JPanel( new BorderLayout());
         panel1.setSize(900,600);
-        OrderM om = new OrderM();
 
         DefTM1 = new DefaultTableModel(om.getData(), om.getHeaderColumn());
         jt1 = new JTable(DefTM1) {
@@ -258,7 +245,7 @@ public class TabbedOrder extends JFrame implements ActionListener{
             basket.dispose();
             Welcome wlc = new Welcome();
             wlc.setVisible(true);
-
+            dml.truncateTable("BASKET");
         }
         else if(ae.getSource()== addPrdBtn){
 

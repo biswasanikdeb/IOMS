@@ -19,9 +19,7 @@ public class OrderM extends DML {
         return !phoneNumber.equals(getColumnS("CUSTOMER", phoneNumber, "PHONE#", "PHONE#"));
     }
 
-    public void addToOrderData(String customerName, int totalP, int totalQ, String phoneNumber) {
-
-    }
+    
     public int createOrder(int custoemrId){
         int orderId = generateId(TABLENAME, "ORD_ID");
         addToOrder(orderId, custoemrId);
