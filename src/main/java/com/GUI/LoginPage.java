@@ -2,6 +2,9 @@ package com.GUI;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyListener;
+import java.security.KeyStoreSpi;
+
 import javax.swing.*;
 
 import java.awt.Graphics;
@@ -46,9 +49,15 @@ public class LoginPage extends JFrame implements ActionListener {
         label2.setBounds(320, 110, 300, 20);
         label2.setFont(new Font("Arial", Font.PLAIN, 20));
         panel.add(label2);
-
+        KeyStroke enter = KeyStroke.getKeyStroke("ENTER");
         tf = new JTextField();
         tf.setBounds(440, 110, 130, 20);
+        tf.getInputMap(JComponent.WHEN_FOCUSED).put(enter, enter);
+        tf.getActionMap().put(enter, new AbstractAction() {
+            public void actionPerformed(ActionEvent e) {
+                pf.requestFocus();
+            }
+        });
         panel.add(tf);
 
         label3 = new JLabel("Password");
@@ -58,7 +67,15 @@ public class LoginPage extends JFrame implements ActionListener {
 
         pf = new JPasswordField();
         pf.setBounds(440, 150, 130, 20);
+        
+        pf.getInputMap(JComponent.WHEN_FOCUSED).put(enter, enter);
+        pf.getActionMap().put(enter, new AbstractAction() {
+            public void actionPerformed(ActionEvent e) {
+                bt.doClick();
+            }
+        });
         panel.add(pf);
+
 
         img = new ImageIcon("OOP1M.jpg");
         label4 = new JLabel(img);
@@ -146,4 +163,5 @@ public class LoginPage extends JFrame implements ActionListener {
             sgp.setVisible(true);
         }
     }
+   
 }
