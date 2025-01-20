@@ -148,7 +148,7 @@ public class DML extends conn {
         }
         return id;
     }
-
+    
     public String[] getProducts() {
         String statement = "SELECT PRD_NAME FROM PRODUCTS";
         String len = "SELECT COUNT(PRD_NAME) FROM PRODUCTS";
@@ -270,8 +270,36 @@ public class DML extends conn {
         }
         return primaryKey;
     }
+    public int getColumn(String tableName, int keyValue, String keyValueColumn, String primaryColumnName) {
+        String statement = "SELECT " + primaryColumnName + " FROM " + tableName + " WHERE " + keyValueColumn + " = '"
+                + keyValue + "'";
+        ResultSet rs = super.runQuery(statement);
+        int primaryKey = 0;
+        try {
+            if (rs.next()) {
+                primaryKey = rs.getInt(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return primaryKey;
+    }
 
     public String getColumnS(String tableName, String keyValue, String keyValueColumn, String primaryColumnName) {
+        String statement = "SELECT " + primaryColumnName + " FROM " + tableName + " WHERE " + keyValueColumn + " = '"
+                + keyValue + "'";
+        ResultSet rs = super.runQuery(statement);
+        String primaryKey = null;
+        try {
+            if (rs.next()) {
+                primaryKey = rs.getString(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return primaryKey;
+    }
+    public String getColumnS(String tableName, int keyValue, String keyValueColumn, String primaryColumnName) {
         String statement = "SELECT " + primaryColumnName + " FROM " + tableName + " WHERE " + keyValueColumn + " = '"
                 + keyValue + "'";
         ResultSet rs = super.runQuery(statement);
@@ -329,6 +357,20 @@ public class DML extends conn {
     }
 
     public void pushToRefTable(int orderId) {
+        String stmt = "SELECT B.QTY, B.PRD_ID FROM BASKET B";
+        ResultSet rs = super.runQuery(stmt);
+        try {
+            while (rs.next()) {
+                String statement = "UPDATE PRODUCTS SET AVL_QTY = AVL_QTY - ? WHERE PRD_ID = ?";
+                PreparedStatement pstmt = super.runStatement(statement);
+                pstmt.setInt(1, rs.getInt(1));
+                pstmt.setInt(2, rs.getInt(2));
+                pstmt.executeUpdate();
+                pstmt.close();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         String statement = "INSERT INTO PRD_REF(ORD_ID, PRD_ID, QTY) SELECT O.ORD_ID, B.PRD_ID, B.QTY FROM ORDERS O, BASKET B WHERE O.ORD_ID = ?";
         try {
             PreparedStatement preparedStatement = super.runStatement(statement);
