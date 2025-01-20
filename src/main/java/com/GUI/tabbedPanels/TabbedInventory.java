@@ -376,6 +376,7 @@ public class TabbedInventory extends JFrame implements ActionListener {
             String name = tf10.getText();
             int primaryKey = dml.getPrimaryKey(TABLENAME, name, "PRD_NAME", "PRD_ID");
             im.deleteInventory(primaryKey);
+            tf10.setText("");
 
             DefTM.setDataVector(im.getData(), im.getHeaderColumn());
             DefTM.fireTableDataChanged();

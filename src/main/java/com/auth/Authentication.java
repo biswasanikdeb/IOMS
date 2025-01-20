@@ -46,7 +46,7 @@ public class Authentication {
                 String usernm = rs.getString("username");
                 String pass = rs.getString("password");
                 String  type = rs.getString("usertype");
-                if (usernm.equals(Username) && pass.equals(password) && type.equals("admin")) {
+                if (usernm.equals(Username) && pass.equals(password) && type.equals("admin") ) {
                     flag = true; 
                     break;   
                 }

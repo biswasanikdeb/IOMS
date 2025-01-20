@@ -37,14 +37,14 @@ public class ClientPage extends JFrame implements ActionListener {
     private JScrollPane js;
     private Font f1;
     private JLabel labelphone, labelname, label1, label2, label3, label4, label5, label6, label7, label8, label9,
-            label10;
+            label10,label11;
     private JTextField tf1;
-    private JButton addPrdBtn, confirmBtn, exitButton;
+    private JButton addPrdBtn, confirmBtn, exitButton, remfrmBsktBtn;
     @SuppressWarnings("rawtypes")
     private JComboBox cb;
     private boolean flag;
     private int totalPrice, totalQty;
-    private String dataArray[];
+    private String dataArray[] = new String[]{ "1", "2", "3", "4", "5" };
     private DML dml = new DML();
 
     @SuppressWarnings({ "rawtypes", "unchecked" })
@@ -56,8 +56,6 @@ public class ClientPage extends JFrame implements ActionListener {
         super.setLocationRelativeTo(null);
         super.setResizable(false);
         super.setIconImage(logo.getImage());
-        DataManagement dtm = new DataManagement();
-        dataArray = dtm.checkOldData(username, new File("./customerInfo.txt"), 0);
 
         basket = new JFrame("Basket");
         basket.setSize(400, 600);
@@ -81,13 +79,18 @@ public class ClientPage extends JFrame implements ActionListener {
         clmModel.getColumn(1).setPreferredWidth(180);
         clmModel.getColumn(2).setPreferredWidth(70);
         clmModel.getColumn(3).setPreferredWidth(70);
-        clmModel.getColumn(4).setPreferredWidth(90);
         jt.getTableHeader().setResizingAllowed(false);
         jt.getTableHeader().setReorderingAllowed(false);
 
         js = new JScrollPane(jt);
 
+        remfrmBsktBtn = new JButton("remove");
+        remfrmBsktBtn.setBounds(250, 500, 100, 30);
+        remfrmBsktBtn.addActionListener(this);  
+
         basket.add(js);
+        basket.add(remfrmBsktBtn,BorderLayout.SOUTH);
+
         panel2 = new JPanel();
         panel2.setLayout(null);
         panel2.setBackground(Color.LIGHT_GRAY);
@@ -108,71 +111,75 @@ public class ClientPage extends JFrame implements ActionListener {
         label2.setBounds(50, 100, 200, 30);
         label2.setFont(f1);
         panel2.add(label2);
-
+        
         labelphone = new JLabel(dataArray[4]);
         labelphone.setBounds(220, 100, 200, 30);
         labelphone.setFont(f1);
         panel2.add(labelphone);
 
+        label11 = new JLabel("Address :");
+        label11.setBounds(50,160,200,30);
+        label11.setFont(f1);
+        panel2.add(label11);
+
+        label4 = new JLabel("Items :");
+        label4.setBounds(50, 200, 200, 30);
+        label4.setFont(f1);
+        panel2.add(label4);
+
+        cb = new JComboBox(dml.getProducts());
+        cb.setBounds(130, 200, 150, 30);
+        cb.addActionListener(this);
+        cb.setForeground(Color.BLUE);
+        cb.setBackground(Color.WHITE);
+        panel2.add(cb);
+
+        label5 = new JLabel("Price :");
+        label5.setBounds(50, 240, 200, 30);
+        label5.setFont(f1);
+        panel2.add(label5);
+
+        label8 = new JLabel();
+        label8.setBounds(125, 240, 200, 30);
+        label8.setFont(f1);
+        panel2.add(label8);
+
         label3 = new JLabel("Quantity:");
-        label3.setBounds(320, 160, 170, 30);
+        label3.setBounds(320, 200, 170, 30);
         label3.setFont(f1);
         panel2.add(label3);
 
         tf1 = new JTextField();
-        tf1.setBounds(470, 160, 50, 30);
+        tf1.setBounds(470, 200, 50, 30);
         panel2.add(tf1);
 
         addPrdBtn = new JButton("Add");
-        addPrdBtn.setBounds(600, 160, 100, 30);
+        addPrdBtn.setBounds(600, 200, 100, 30);
         addPrdBtn.setFocusable(false);
         addPrdBtn.addActionListener(this);
         panel2.add(addPrdBtn);
 
-        label4 = new JLabel("Items :");
-        label4.setBounds(50, 160, 200, 30);
-        label4.setFont(f1);
-        panel2.add(label4);
-
-        label5 = new JLabel("Price :");
-        label5.setBounds(50, 200, 200, 30);
-        label5.setFont(f1);
-        panel2.add(label5);
-
         label6 = new JLabel("Total Items :");
-        label6.setBounds(50, 240, 200, 30);
+        label6.setBounds(50, 280, 200, 30);
         label6.setFont(f1);
         panel2.add(label6);
 
         label10 = new JLabel();
-        label10.setBounds(165, 240, 200, 30);
+        label10.setBounds(165, 280, 200, 30);
         label10.setFont(f1);
         panel2.add(label10);
 
         label7 = new JLabel("Total price :");
-        label7.setBounds(350, 240, 200, 30);
+        label7.setBounds(350, 280, 200, 30);
         label7.setFont(f1);
         panel2.add(label7);
 
         label9 = new JLabel();
-        label9.setBounds(475, 240, 200, 30);
+        label9.setBounds(475, 280, 200, 30);
         label9.setFont(f1);
         panel2.add(label9);
 
-        cb = new JComboBox(dml.getProducts());
-        cb.setBounds(130, 160, 150, 30);
-
-        cb.addActionListener(this);
-        panel2.add(cb);
-        cb.setForeground(Color.BLUE);
-        cb.setBackground(Color.WHITE);
-
-        label8 = new JLabel();
-        label8.setBounds(125, 200, 200, 30);
-        label8.setFont(f1);
-        panel2.add(label8);
-
-        confirmBtn = new JButton("Confrim");
+        confirmBtn = new JButton("Confirm");
         confirmBtn.setBounds(400, 400, 100, 30);
         confirmBtn.setFocusable(false);
         confirmBtn.addActionListener(this);
@@ -181,8 +188,8 @@ public class ClientPage extends JFrame implements ActionListener {
         exitButton = new JButton("Exit");
         exitButton.setBounds(350, 500, 200, 35);
         exitButton.addActionListener(this);
+        panel2.add(exitButton);
 
-        super.add(exitButton);
         super.add(panel2);
     }
 

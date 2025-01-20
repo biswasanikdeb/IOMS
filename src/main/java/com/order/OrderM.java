@@ -3,10 +3,9 @@ package com.order;
 import com.db.DML;
 
 public class OrderM extends DML {
-    private final String VIEWTABLE = "ORDERS";
+    private final String VIEWTABLE = "ORDERTABLE";
     private final String TABLENAME = "ORDERS";
-    private String headerColumn[] = new String[] { "Order ID", "Customer Name ", "Total QTY", "Total price", "Date",
-            "Phone Number" };
+    private String headerColumn[] = new String[] { "Order ID", "Customer Name " ,"Phone Number","Address", "Order Date" };
 
     public Object[][] getData() {
         return getTableData(VIEWTABLE);

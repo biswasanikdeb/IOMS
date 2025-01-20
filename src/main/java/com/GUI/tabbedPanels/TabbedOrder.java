@@ -1,11 +1,10 @@
 package com.GUI.tabbedPanels;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseListener;
-
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -48,7 +47,6 @@ public class TabbedOrder extends JFrame implements ActionListener{
     private JScrollPane js,js1;
     private TableColumnModel clmModel,clmModel1;
     private JFrame basket;
-    private int totalPrice,totalQty;
     
 
     @SuppressWarnings({ "rawtypes", "unchecked" })
@@ -145,24 +143,24 @@ public class TabbedOrder extends JFrame implements ActionListener{
         panel2.setBackground(Color.LIGHT_GRAY);
 
         f1 = new Font("Arial", Font.PLAIN, 20);
-
-        label1 = new JLabel("Customer Name :");
+        label1 = new JLabel("Phone Number : ");
         label1.setBounds(50,40,200,30);
         label1.setFont(f1);
         panel2.add(label1);
-
+        
         tf1 = new JTextField();
         tf1.setBounds(260, 40, 350, 30);
         panel2.add(tf1);
-
-        label2 = new JLabel("Phone Number : ");
+        
+        label2 = new JLabel("Customer Name :");
         label2.setBounds(50,100,200,30);
         label2.setFont(f1);
         panel2.add(label2);
-            
-            tf2 = new JTextField();
+        
+        tf2 = new JTextField();
         tf2.setBounds(260, 100, 350, 30);
         panel2.add(tf2);
+
 
         label11 = new JLabel("Address :");
         label11.setBounds(50,160,200,30);
@@ -306,8 +304,8 @@ public class TabbedOrder extends JFrame implements ActionListener{
         
         
         if (ae.getSource()==confirmBtn) {
-            String name = tf1.getText();
-            String phoneNumber = tf2.getText();
+            String name = tf2.getText();
+            String phoneNumber = tf1.getText();
             String address = tf4.getText();
             int custoemrId;
             if (name.isEmpty()||phoneNumber.isEmpty() || address.isEmpty()) {
@@ -317,22 +315,20 @@ public class TabbedOrder extends JFrame implements ActionListener{
                     custoemrId = dml.forceAddToCustomerTable(name, phoneNumber, address);
                 }
                 else{
-                    custoemrId = dml.getPrimaryKey("CUSTOMERS", phoneNumber, "PHONE#", "CUSTOMER_ID");
+                    custoemrId = dml.getPrimaryKey("CUSTOMER", phoneNumber, "PHONE#", "CUSTOMER_ID");
                 }
                 om.createOrder(custoemrId);
                 
 
                 DefTM1.setDataVector(om.getData(), om.getHeaderColumn());
                 DefTM1.fireTableDataChanged();
-                totalPrice =0;
-                totalQty =0;
                 label9.setText("");
                 label10.setText("");
                 tf1.setText("");
                 tf2.setText("");
+                tf4.setText("");
                 basket.dispose();
                 flag= false;
-                //<<-----data modify of inventory after order confirm------->>>
 
                 
             }

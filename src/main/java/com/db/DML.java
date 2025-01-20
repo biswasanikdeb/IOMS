@@ -7,7 +7,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -22,9 +21,8 @@ public class DML extends conn {
     // adds data
     public int addToCustomerTable(String name, String username, String gender, String phone, String dob, String addr,
             Component parentComponent) {
-        String takeRowCountStatement = "SELECT COUNT(CUSTOMER_ID) FROM CUSTOMER";
         String dataInsertion = "INSERT INTO CUSTOMER(CUSTOMER_ID,NAME,GENDER,PHONE#,DOB,ADDRESS) VALUES(?, ?,?,?,TO_DATE(?,'DD/MM/YY'),?)";
-        String checkExisting = "SELECT a.username, c.phone# FROM auth a, customer c WHERE (a.CUSTOMER_ID = c.CUSTOMER_ID) and (a.username = ? and c.phone# = ?)";
+        String checkExisting = "SELECT a.username, c.phone# FROM auth a, customer c WHERE (a.CUSTOMER_ID = c.CUSTOMER_ID) and (a.username = ? or c.phone# = ?)";
 
         PreparedStatement pstmt1 = super.runStatement(checkExisting);
 
