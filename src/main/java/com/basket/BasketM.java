@@ -19,7 +19,7 @@ public class BasketM extends DML {
 
     public void addToBasketData(String name, String qty, Component parent) {
         int quantity = Integer.parseInt(qty);
-        if (!name.equals(getColumnS("BASKETVIEW", name, "\"Item_name\"", "\"Item_name\""))) {
+        if (!name.equals(getColumnS("BASKETVIEW", name, "ITEM_NAME", "ITEM_NAME"))) {
             if (quantity> getColumn("PRODUCTS", name, "PRD_NAME", "AVL_QTY")) {
                 JOptionPane.showMessageDialog(parent, "Not enough stock available", "Error", JOptionPane.ERROR_MESSAGE);
                 return;  
@@ -28,7 +28,7 @@ public class BasketM extends DML {
                 addToBasket(name, quantity);       
             }
         }else{
-            int newQty = getColumn("BASKETVIEW", name, "\"Item_name\"", "\"qty\"")+quantity;
+            int newQty = getColumn("BASKETVIEW", name, "ITEM_NAME", "QTY")+quantity;
             if (newQty > getColumn("PRODUCTS", name, "PRD_NAME", "AVL_QTY")) {
                 JOptionPane.showMessageDialog(parent, "Not enough stock available", "Error", JOptionPane.ERROR_MESSAGE);
                 return;  
@@ -38,7 +38,7 @@ public class BasketM extends DML {
             }
         }
     }
-    public int total(){ return getColumnTotal(VIEWNAME, "\"total_price\"");}
+    public int total(){ return getColumnTotal(VIEWNAME, "TOTAL_PRICE");}
     public int totalItem(){ return getRowCount(VIEWNAME);}
     public void deleteBasket(String name) {
         deleteRow("BASKET", "PRD_ID", getPrimaryKey("PRODUCTS",name, "PRD_NAME", "PRD_ID"));

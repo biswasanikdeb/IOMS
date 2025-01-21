@@ -13,7 +13,7 @@ import java.util.logging.Logger;
 
 import javax.swing.JOptionPane;
 
-import com._String.Sanitize;
+import com._string.Sanitize;
 
 public class DML extends conn {
     private static final Logger LOGGER = Logger.getLogger(conn.class.getName());

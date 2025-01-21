@@ -1,4 +1,4 @@
-package com._String;
+package com._string;
 
 public class Sanitize {
     public static String san(String s) {

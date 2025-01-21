@@ -44,7 +44,7 @@ public class Authentication {
         try {
             while (rs.next()) {
                 String usernm = rs.getString("username");
-                String pass = rs.getString("password");
+                String pass = rs.getString("PASSWORD");
                 String  type = rs.getString("usertype");
                 if (usernm.equals(Username) && pass.equals(password) && type.equals("admin") ) {
                     flag = true; 
