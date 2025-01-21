@@ -5,8 +5,6 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
-import java.util.Scanner;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -25,7 +23,7 @@ import com.basket.BasketM;
 import com.customer.CustomerM;
 import com.db.DML;
 import com.inventory.InventoryM;
-import com.newCommon.DataManagement;
+
 import com.order.OrderM;
 
 public class ClientPage extends JFrame implements ActionListener {
@@ -45,8 +43,6 @@ public class ClientPage extends JFrame implements ActionListener {
     @SuppressWarnings("rawtypes")
     private JComboBox cb;
     private boolean flag;
-    private int totalPrice, totalQty;
-    private String dataArray[] = new String[]{ "1", "2", "3", "4", "5" };
     private DML dml = new DML();
     private BasketM bm = new BasketM();
     private InventoryM im = new InventoryM();
