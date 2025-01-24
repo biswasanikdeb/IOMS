@@ -222,27 +222,7 @@ public class DML extends conn {
         }
         return data;
     }
-    public Object[][] getOrderHistory(String tableName, int clientId) {
-        String statement = "SELECT * FROM " + tableName ;
-        ResultSet rs = super.runQuery(statement);
-        int columnCount = 0;
-        int rowCount = getRowCount(tableName);
-        Object[][] data = null;
-        try {
-            columnCount = rs.getMetaData().getColumnCount();
-            data = new Object[rowCount][columnCount];
-            int rowIndex = 0;
-            while (rs.next()) {
-                for (int colIndex = 1; colIndex <= columnCount; colIndex++) {
-                    data[rowIndex][colIndex - 1] = rs.getObject(colIndex);
-                }
-                rowIndex++;
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return data;
-    }
+
     public Vector<String> getSuggestions(String text, String tableName, String columnName) {
         String statement = "SELECT " + columnName + " FROM " + tableName + " WHERE " + columnName + " LIKE '%" + text
                 + "%'";
@@ -363,7 +343,7 @@ public class DML extends conn {
     }
 
     public void addToOrder(int orderId, int customerId) {
-        String statement = "INSERT INTO ORDERS(ORD_ID,CUSTOMER_ID,ORD_DATE,STATUS) VALUES(?,?,?,'PENDING')";
+        String statement = "INSERT INTO ORDERS(ORD_ID,CUSTOMER_ID,ORD_DATE) VALUES(?,?,?)";
         try {
             PreparedStatement pstmt = super.runStatement(statement);
             pstmt.setInt(1, orderId);

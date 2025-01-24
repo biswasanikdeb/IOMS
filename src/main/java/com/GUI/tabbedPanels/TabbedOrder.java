@@ -115,7 +115,6 @@ public class TabbedOrder extends JFrame implements ActionListener{
         clmModel1.getColumn(2).setPreferredWidth(70);
         clmModel1.getColumn(3).setPreferredWidth(70);
         clmModel1.getColumn(4).setPreferredWidth(90);
-        clmModel1.getColumn(5).setPreferredWidth(90);
         jt1.getTableHeader().setResizingAllowed(false);
         jt1.getTableHeader().setReorderingAllowed(false);
 
