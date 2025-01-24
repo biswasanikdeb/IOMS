@@ -28,7 +28,7 @@ public class BasketM extends DML {
                 addToBasket(name, quantity);       
             }
         }else{
-            int newQty = getColumn("BASKETVIEW", name, "\"Item_name\"", "QTY")+quantity;
+            int newQty = getColumn("BASKETVIEW", name, "\"Item_name\"", "\"qty\"")+quantity;
             if (newQty > getColumn("PRODUCTS", name, "PRD_NAME", "AVL_QTY")) {
                 JOptionPane.showMessageDialog(parent, "Not enough stock available", "Error", JOptionPane.ERROR_MESSAGE);
                 return;  
