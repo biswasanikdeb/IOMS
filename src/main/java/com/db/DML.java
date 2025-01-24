@@ -343,7 +343,7 @@ public class DML extends conn {
     }
 
     public void addToOrder(int orderId, int customerId) {
-        String statement = "INSERT INTO ORDERS(ORD_ID,CUSTOMER_ID,ORD_DATE) VALUES(?,?,?)";
+        String statement = "INSERT INTO ORDERS(ORD_ID,CUSTOMER_ID,ORD_DATE,STATUS) VALUES(?,?,?,'PENDING')";
         try {
             PreparedStatement pstmt = super.runStatement(statement);
             pstmt.setInt(1, orderId);
