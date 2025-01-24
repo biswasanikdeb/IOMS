@@ -27,5 +27,7 @@ public class OrderM extends DML {
         truncateTable("BASKET");
         return orderId;
     }
-    
+    public int getTotalOrder(int clientId){
+        return getTotalOrderById(VIEWTABLE, clientId);
+    }
 }

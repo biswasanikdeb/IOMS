@@ -5,6 +5,8 @@ package com.GUI.tabbedPanels;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -19,7 +21,7 @@ import javax.swing.table.TableColumnModel;
 
 import com.GUI.Welcome;
 import com.customer.CustomerM;
-
+import com.GUI.CustomerInfo;
 
 public class TabbedCustomer extends JFrame implements ActionListener{
     private JPanel panel1;
@@ -58,7 +60,21 @@ public class TabbedCustomer extends JFrame implements ActionListener{
         clmModel.getColumn(5).setPreferredWidth(90);
         jt.getTableHeader().setResizingAllowed(false);
         jt.getTableHeader().setReorderingAllowed(false);
-
+        jt.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent evt) {
+                if (evt.getClickCount() == 2) { // Check for double-click
+                    int selectedRow = jt.getSelectedRow(); // Get the selected row index
+                    if (selectedRow != -1) {
+                        // Fetch data from the selected row
+                        int id =  Integer.parseInt(jt.getValueAt(selectedRow, 0).toString());
+                        // Open a JDialog with the row's data
+                        CustomerInfo ci = new CustomerInfo(id);
+                        ci.setVisible(true);
+                    }
+                }
+            }
+        });
         js = new JScrollPane(jt);
 
         panel1 = new JPanel(new BorderLayout());

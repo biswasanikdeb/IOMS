@@ -426,4 +426,60 @@ public class DML extends conn {
             e.printStackTrace();
         }
     }
+    public Object[][] getOrderHistory(String tableName, int clientId) {
+        String statement = "SELECT * FROM " +tableName +" WHERE ORD_ID IN (SELECT ORD_ID FROM ORDERS WHERE CUSTOMER_ID = "+clientId+")";
+        ResultSet rs = super.runQuery(statement);
+        int columnCount = 0;
+        int rowCount = getRowCount(tableName);
+        Object[][] data = null;
+        try {
+            columnCount = rs.getMetaData().getColumnCount();
+            data = new Object[rowCount][columnCount];
+            int rowIndex = 0;
+            while (rs.next()) {
+                for (int colIndex = 1; colIndex <= columnCount; colIndex++) {
+                    data[rowIndex][colIndex - 1] = rs.getObject(colIndex);
+                }
+                rowIndex++;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return data;
+    }
+    public Object[][] getActiveOrderData(String tableName, int clientId) {
+        String statement = "SELECT * FROM " +tableName +" WHERE ORD_ID IN (SELECT ORD_ID FROM ORDERS WHERE CUSTOMER_ID = "+clientId+")";
+        ResultSet rs = super.runQuery(statement);
+        int columnCount = 0;
+        int rowCount = getRowCount(tableName);
+        Object[][] data = null;
+        try {
+            columnCount = rs.getMetaData().getColumnCount();
+            data = new Object[rowCount][columnCount];
+            int rowIndex = 0;
+            while (rs.next()) {
+                for (int colIndex = 1; colIndex <= columnCount; colIndex++) {
+                    data[rowIndex][colIndex - 1] = rs.getObject(colIndex);
+                }
+                rowIndex++;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return data;
+    }
+
+    public int getTotalOrderById(String tableName, int clientId) {
+        String statement = "SELECT COUNT(*) FROM " + tableName + " WHERE ORD_ID IN (SELECT ORD_ID FROM ORDERS WHERE CUSTOMER_ID = " + clientId + ")";
+        ResultSet rs = super.runQuery(statement);
+        int rowCount = 0;
+        try {
+            if (rs.next()) {
+                rowCount = rs.getInt(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return rowCount;
+    }
 }

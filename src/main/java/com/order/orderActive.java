@@ -4,10 +4,10 @@ import com.db.DML;
 
 public class orderActive extends DML {
     private final String VIEWTABLE = "ORDER_ACTIVE";
-    private String headerColumn[] = new String[] { "Order ID", "Products" ,"Qty", "Order Date","Status" };
+    private String headerColumn[] = new String[] { "Order ID", "product id","Products" ,"Qty", "Order Date","Status" };
 
-    public Object[][] getData() {
-        return getTableData(VIEWTABLE);
+    public Object[][] getData(int clientId) {
+        return getActiveOrderData(VIEWTABLE,clientId);
     }
 
     public String[] getHeaderColumn() {
