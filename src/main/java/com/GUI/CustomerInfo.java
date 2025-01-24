@@ -24,6 +24,7 @@ public class CustomerInfo extends JFrame {
     private CustomerM cm = new CustomerM();
     private orderHistory oh = new orderHistory();
     private orderActive oa = new orderActive();
+    @SuppressWarnings("static-access")
     public CustomerInfo(int clientId) {
         super("Customer Info");
         super.setSize(900, 600);

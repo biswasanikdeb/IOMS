@@ -1,6 +1,5 @@
 package com.ioms;
 
-import com.GUI.CustomerInfo;
 import com.GUI.LoginPage;
 
 
