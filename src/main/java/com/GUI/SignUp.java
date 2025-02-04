@@ -23,6 +23,9 @@ public class SignUp extends JFrame implements ActionListener, MouseListener {
 	JScrollPane scroll;
 	private ImageIcon logo = new ImageIcon("./images/logo.png");
 
+	DML dml = new DML();
+
+
 	public SignUp() {
 		super("Create New Account");
 		super.setLayout(null);
@@ -237,7 +240,6 @@ public class SignUp extends JFrame implements ActionListener, MouseListener {
 					|| pass.isEmpty() || passVerify.isEmpty() || addr.isEmpty()) {
 				JOptionPane.showMessageDialog(this, "Fillup the whole Form");
 			} else {
-				DML dml = new DML();
 				int response = dml.addToCustomerTable(name, userName, gender, phone, dob,addr, this);
 				if (response!=0) {
 					dml.addToAuthTable(userName, pass,response,this);

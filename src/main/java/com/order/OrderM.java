@@ -16,7 +16,7 @@ public class OrderM extends DML {
     }
 
     public boolean isNewUser(String phoneNumber) {
-        return !phoneNumber.equals(getColumnS("CUSTOMER", phoneNumber, "PHONE#", "PHONE#"));
+        return !phoneNumber.equals(getColumnS("CUSTOMER", phoneNumber, "PHONE", "PHONE"));
     }
 
     

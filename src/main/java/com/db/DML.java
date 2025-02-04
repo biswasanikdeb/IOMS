@@ -21,8 +21,8 @@ public class DML extends conn {
     // adds data
     public int addToCustomerTable(String name, String username, String gender, String phone, String dob, String addr,
             Component parentComponent) {
-        String dataInsertion = "INSERT INTO CUSTOMER(CUSTOMER_ID,NAME,GENDER,PHONE#,DOB,ADDRESS) VALUES(?, ?,?,?,TO_DATE(?,'DD/MM/YY'),?)";
-        String checkExisting = "SELECT a.username, c.phone# FROM auth a, customer c WHERE (a.CUSTOMER_ID = c.CUSTOMER_ID) and (a.username = ? or c.phone# = ?)";
+        String dataInsertion = "INSERT INTO CUSTOMER(CUSTOMER_ID,NAME,GENDER,PHONE,DOB,ADDRESS) VALUES(?, ?,?,?,TO_DATE(?,'DD/MM/YY'),?)";
+        String checkExisting = "SELECT a.username, c.PHONE FROM auth a, customer c WHERE (a.CUSTOMER_ID = c.CUSTOMER_ID) and (a.username = ? or c.PHONE = ?)";
 
         PreparedStatement pstmt1 = super.runStatement(checkExisting);
 
@@ -38,6 +38,7 @@ public class DML extends conn {
                 result[1] = rs1.getString(2);
                 System.out.println(result[0] + result[1]);
             }
+            pstmt1.close();
             if (result[0] == null && result[1] == null) {
 
                 int clinetid = generateId("CUSTOMER", "CUSTOMER_ID");
@@ -51,7 +52,7 @@ public class DML extends conn {
                     pstmt.setString(5, Sanitize.san(dob));
                     pstmt.setString(6, Sanitize.san(addr));
                     pstmt.executeUpdate();
-                    pstmt1.close();
+                    
                     pstmt.close();
                     return clinetid;
                 } catch (SQLException e) {
@@ -76,7 +77,7 @@ public class DML extends conn {
     }
 
     public int forceAddToCustomerTable(String name, String phone, String addr) {
-        String dataInsertion = "INSERT INTO CUSTOMER(CUSTOMER_ID,NAME, PHONE#,ADDRESS) VALUES(?, ?,?,?)";
+        String dataInsertion = "INSERT INTO CUSTOMER(CUSTOMER_ID,NAME, PHONE,ADDRESS) VALUES(?, ?,?,?)";
         int clinetid = generateId("CUSTOMER", "CUSTOMER_ID");
         try {
             PreparedStatement pstmt = super.runStatement(dataInsertion);
@@ -481,5 +482,22 @@ public class DML extends conn {
             e.printStackTrace();
         }
         return rowCount;
+    }
+
+    public String[] getRow(String tableName, String primaryKeyColumn, int primaryKeyValue) {
+        String statement = "SELECT * FROM " + tableName + " WHERE " + primaryKeyColumn + " = " + primaryKeyValue;
+        ResultSet rs = super.runQuery(statement);
+        String[] data = null;
+        try {
+            data = new String[rs.getMetaData().getColumnCount()];
+            if (rs.next()) {
+                for (int i = 0; i < data.length; i++) {
+                    data[i] = rs.getString(i + 1);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return data;
     }
 }

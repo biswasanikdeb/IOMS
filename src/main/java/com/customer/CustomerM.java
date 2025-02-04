@@ -27,10 +27,10 @@ public class CustomerM extends DataManagement{
         return dml.getColumnS(TABLENAME2,clientId, "CUSTOMER_ID", "NAME") ;
     }
     public String getPhone(String username){
-        return dml.getColumnS(TABLENAME2,getCustomerID(username), "CUSTOMER_ID", "PHONE#") ;
+        return dml.getColumnS(TABLENAME2,getCustomerID(username), "CUSTOMER_ID", "PHONE") ;
     }
     public String getPhone(int clientId){
-        return dml.getColumnS(TABLENAME2,clientId, "CUSTOMER_ID", "PHONE#") ;
+        return dml.getColumnS(TABLENAME2,clientId, "CUSTOMER_ID", "PHONE") ;
     }
     public String getAddr(String username){
         return dml.getColumnS(TABLENAME2,getCustomerID(username), "CUSTOMER_ID", "ADDRESS") ;

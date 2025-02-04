@@ -1,6 +1,6 @@
 package com.ioms;
 
-import com.GUI.LoginPage;
+import com.GUI.*;
 
 
 public class Main  {
@@ -11,7 +11,7 @@ public class Main  {
         LoginPage obj1 = new LoginPage();
         //TabbedOrder obj1 = new TabbedOrder();
         //ClientPage obj1 = new ClientPage(null);
-        //CustomerInfo obj1 = new CustomerInfo(1);
+        //OrderDetails obj1 = new OrderDetails(1);
         obj1.setVisible(true);
     }
 }
