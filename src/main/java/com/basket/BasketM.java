@@ -6,6 +6,7 @@ import javax.swing.JOptionPane;
 import com.db.DML;
 
 public class BasketM extends DML {
+   
     private final String VIEWNAME = "BASKETVIEW";
 
     private String headerColumn[] = new String[] { "Item Name ", "Unit Price", "Qty", "Price" };
@@ -19,21 +20,46 @@ public class BasketM extends DML {
     }
 
     public void addToBasketData(String name, String qty, Component parent) {
+        String db;
+        try {
+            db = DBcon().getMetaData().getDatabaseProductName();
+        } catch (Exception e) {
+            db = "MySQL";
+        }
         int quantity = Integer.parseInt(qty);
-        if (!name.equals(getColumnS("BASKETVIEW", name, "\"Item_name\"", "\"Item_name\""))) {
-            if (quantity > getColumn("PRODUCTS", name, "PRD_NAME", "AVL_QTY")) {
-                JOptionPane.showMessageDialog(parent, "Not enough stock available", "Error", JOptionPane.ERROR_MESSAGE);
-                return;
+        if (!db.equals("MySQL")) {
+            if (!name.equals(getColumnS("BASKETVIEW", name, "\"Item_name\"", "\"Item_name\""))) {
+                if (quantity > getColumn("PRODUCTS", name, "PRD_NAME", "AVL_QTY")) {
+                    JOptionPane.showMessageDialog(parent, "Not enough stock available", "Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                } else {
+                    addToBasket(name, quantity);
+                }
             } else {
-                addToBasket(name, quantity);
+                int newQty = getColumn("BASKETVIEW", name, "\"Item_name\"", "\"qty\"") + quantity;
+                if (newQty > getColumn("PRODUCTS", name, "PRD_NAME", "AVL_QTY")) {
+                    JOptionPane.showMessageDialog(parent, "Not enough stock available", "Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                } else {
+                    updateTable("BASKET", "Qty", newQty, "PRD_ID", getPrimaryKey("PRODUCTS", name, "PRD_NAME", "PRD_ID"));
+                }
             }
-        } else {
-            int newQty = getColumn("BASKETVIEW", name, "\"Item_name\"", "\"qty\"") + quantity;
-            if (newQty > getColumn("PRODUCTS", name, "PRD_NAME", "AVL_QTY")) {
-                JOptionPane.showMessageDialog(parent, "Not enough stock available", "Error", JOptionPane.ERROR_MESSAGE);
-                return;
+        }else{
+            if (!name.equals(getColumnS("BASKETVIEW", name, "Item_name", "Item_name"))) {
+                if (quantity > getColumn("PRODUCTS", name, "PRD_NAME", "AVL_QTY")) {
+                    JOptionPane.showMessageDialog(parent, "Not enough stock available", "Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                } else {
+                    addToBasket(name, quantity);
+                }
             } else {
-                updateTable("BASKET", "Qty", newQty, "PRD_ID", getPrimaryKey("PRODUCTS", name, "PRD_NAME", "PRD_ID"));
+                int newQty = getColumn("BASKETVIEW", name, "Item_name", "qty") + quantity;
+                if (newQty > getColumn("PRODUCTS", name, "PRD_NAME", "AVL_QTY")) {
+                    JOptionPane.showMessageDialog(parent, "Not enough stock available", "Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                } else {
+                    updateTable("BASKET", "Qty", newQty, "PRD_ID", getPrimaryKey("PRODUCTS", name, "PRD_NAME", "PRD_ID"));
+                }
             }
         }
     }

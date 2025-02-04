@@ -7,5 +7,4 @@ public class orderInfo extends DML {
     private String customerName, address, phone, status;
 
     
-    
 }
