@@ -176,7 +176,19 @@ public class DML extends conn {
     }
 
     public void addProducts(String PRD_NAME, int PRD_BPRICE, int PRD_SPRICE, int PRD_QTY) {
-        String rowLen = "SELECT MAX(NVL(\"PRD_ID\",0)) FROM PRODUCTS";
+        String db;
+        try {
+            db = DBcon().getMetaData().getDatabaseProductName();
+         } catch (Exception e) {
+            db = "MySQL";
+        }
+        String rowLen;
+        if(db.equals("MySQL")){
+            rowLen = "SELECT MAX(NVL(PRD_ID,0)) FROM PRODUCTS";
+        }
+        else{
+            rowLen = "SELECT MAX(NVL(\"PRD_ID\",0)) FROM PRODUCTS";
+        }
         int length = 0;
         try {
             PreparedStatement rowLenCount = super.runStatement(rowLen);

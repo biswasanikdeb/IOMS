@@ -14,4 +14,4 @@ public class Main  {
         //OrderDetails obj1 = new OrderDetails(1);
         obj1.setVisible(true);
     }
-}
+}   

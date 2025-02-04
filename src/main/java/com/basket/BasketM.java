@@ -1,8 +1,6 @@
 package com.basket;
 
 import java.awt.Component;
-import java.sql.SQLSyntaxErrorException;
-
 import javax.swing.JOptionPane;
 
 import com.db.DML;
