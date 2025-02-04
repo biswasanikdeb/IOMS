@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.SQLIntegrityConstraintViolationException;
+import java.sql.SQLSyntaxErrorException;
 import java.time.LocalDate;
 import java.util.Vector;
 import java.util.logging.Level;
@@ -315,7 +316,7 @@ public class DML extends conn {
         return primaryKey;
     }
 
-    public int getColumnTotal(String tablename, String columnname) {
+    public int getColumnTotal(String tablename, String columnname){
         String statement = "SELECT SUM(" + columnname + ") FROM " + tablename;
         ResultSet rs = super.runQuery(statement);
         int total = 0;
