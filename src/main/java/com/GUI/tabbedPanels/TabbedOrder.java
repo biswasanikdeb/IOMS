@@ -5,6 +5,8 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -20,6 +22,7 @@ import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
 
+import com.GUI.OrderDetails;
 import com.GUI.Welcome;
 import com.basket.BasketM;
 import com.inventory.InventoryM;
@@ -117,7 +120,21 @@ public class TabbedOrder extends JFrame implements ActionListener{
         clmModel1.getColumn(4).setPreferredWidth(90);
         jt1.getTableHeader().setResizingAllowed(false);
         jt1.getTableHeader().setReorderingAllowed(false);
-
+        jt1.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent evt) {
+                if (evt.getClickCount() == 2) { // Check for double-click
+                    int selectedRow = jt1.getSelectedRow(); // Get the selected row index
+                    if (selectedRow != -1) {
+                        // Fetch data from the selected row
+                        int id =  Integer.parseInt(jt1.getValueAt(selectedRow, 0).toString());
+                        // Open a JDialog with the row's data
+                        OrderDetails od = new OrderDetails(id);
+                        od.setVisible(true);
+                    }
+                }
+            }
+        });
         js1 = new JScrollPane(jt1);
 
         
@@ -302,7 +319,7 @@ public class TabbedOrder extends JFrame implements ActionListener{
                     custoemrId = dml.forceAddToCustomerTable(name, phoneNumber, address);
                 }
                 else{
-                    custoemrId = dml.getPrimaryKey("CUSTOMER", phoneNumber, "PHONE#", "CUSTOMER_ID");
+                    custoemrId = dml.getPrimaryKey("CUSTOMER", phoneNumber, "PHONE", "CUSTOMER_ID");
                 }
                 om.createOrder(custoemrId);
                 
