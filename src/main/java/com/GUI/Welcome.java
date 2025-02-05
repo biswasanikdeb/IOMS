@@ -10,7 +10,7 @@ public class Welcome extends JFrame implements ActionListener {
     private Color color1;
     private JLabel label1, label2, label3;
     private Font f1;
-    private JButton b1, b2, b4, b5;
+    private JButton b1, b2, b4, b5, b6;
     private ImageIcon logo = new ImageIcon("./images/logo.png");
 
     public Welcome() {
@@ -77,6 +77,13 @@ public class Welcome extends JFrame implements ActionListener {
         panel1.add(b4);
         b4.addActionListener(this);
 
+        b6 = new JButton("Delivery Info");
+        b6.setBounds(40, 334, 150, 50);
+        b6.setFocusable(false);
+        b6.setBackground(Color.lightGray);
+        panel1.add(b6);
+        b6.addActionListener(this);
+
         b5 = new JButton("Logout and Exit");
         b5.setBounds(40, 480, 150, 50);
         b5.setFocusable(false);
@@ -110,6 +117,11 @@ public class Welcome extends JFrame implements ActionListener {
             TabbedCustomer tc = new TabbedCustomer();
             tc.setVisible(true);
         }
+        else if (ae.getSource() == b6){
+            this.setVisible(false);
+               TabbedDeliveryman td = new TabbedDeliveryman();
+              td.setVisible(true);
+           }
     }
 }
 

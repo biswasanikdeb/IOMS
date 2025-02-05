@@ -6,7 +6,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.SQLIntegrityConstraintViolationException;
-import java.sql.SQLSyntaxErrorException;
 import java.time.LocalDate;
 import java.util.Vector;
 import java.util.logging.Level;
@@ -357,17 +356,33 @@ public class DML extends conn {
     }
 
     public void addToOrder(int orderId, int customerId) {
-        String statement = "INSERT INTO ORDERS(ORD_ID,CUSTOMER_ID,ORD_DATE,STATUS) VALUES(?,?,?,'PENDING')";
+
+        String statement = "INSERT INTO ORDERS(ORD_ID,CUSTOMER_ID,ORD_DATE,STATUS,DEV_ID) VALUES(?,?,?,'PENDING',?)";
         try {
             PreparedStatement pstmt = super.runStatement(statement);
             pstmt.setInt(1, orderId);
             pstmt.setInt(2, customerId);
             pstmt.setDate(3, Date.valueOf(LocalDate.now()));
+            pstmt.setInt(4, selectDeliveryMan());
             pstmt.executeUpdate();
             pstmt.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    public int selectDeliveryMan(){
+        String statement = "SELECT EMP_ID FROM DELIVERY WHERE EMP_ID = (SELECT MIN(EMP_ID) FROM DLVADMIN WHERE PND_ORD = (SELECT MIN(PND_ORD) FROM DLVADMIN))";
+        ResultSet rs = super.runQuery(statement);
+        int empId = 0;
+        try {
+            if (rs.next()) {
+                empId = rs.getInt(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return empId;   
     }
 
     public void pushToRefTable(int orderId) {
@@ -463,6 +478,27 @@ public class DML extends conn {
     }
     public Object[][] getActiveOrderData(String tableName, int clientId) {
         String statement = "SELECT * FROM " +tableName +" WHERE ORD_ID IN (SELECT ORD_ID FROM ORDERS WHERE CUSTOMER_ID = "+clientId+")";
+        ResultSet rs = super.runQuery(statement);
+        int columnCount = 0;
+        int rowCount = getRowCount(tableName);
+        Object[][] data = null;
+        try {
+            columnCount = rs.getMetaData().getColumnCount();
+            data = new Object[rowCount][columnCount];
+            int rowIndex = 0;
+            while (rs.next()) {
+                for (int colIndex = 1; colIndex <= columnCount; colIndex++) {
+                    data[rowIndex][colIndex - 1] = rs.getObject(colIndex);
+                }
+                rowIndex++;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return data;
+    }
+    public Object[][] getDeliveryData(String tableName, int empId) {
+        String statement = "SELECT ORD_ID,C_NAME,C_ADDR,C_PHONE FROM DLVMN WHERE EMP_ID IN (SELECT EMP_ID FROM DELIVERY WHERE EMP_ID = "+empId+") AND ORD_ID IN (SELECT ORD_ID FROM ORDERS WHERE STATUS = 'PENDING')";
         ResultSet rs = super.runQuery(statement);
         int columnCount = 0;
         int rowCount = getRowCount(tableName);

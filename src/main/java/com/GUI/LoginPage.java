@@ -150,7 +150,13 @@ public class LoginPage extends JFrame implements ActionListener {
                 this.setVisible(false);
                 ClientPage clp = new ClientPage(username);
                 clp.setVisible(true);
-            } else {
+            }else if(auth.deliverymanVerify()){
+                JOptionPane.showMessageDialog(this, "Login Succesful");
+                this.setVisible(false);
+                Deliveryman dlv = new Deliveryman(username);
+                dlv.setVisible(true);
+            }
+             else {
                 JOptionPane.showMessageDialog(this, "UserName or Password Incorrect");
             }
         }

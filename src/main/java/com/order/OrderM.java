@@ -5,7 +5,7 @@ import com.db.DML;
 public class OrderM extends DML {
     private final String VIEWTABLE = "ORDERTABLE";
     private final String TABLENAME = "ORDERS";
-    private String headerColumn[] = new String[] { "Order ID", "Customer Name " ,"Phone Number","Address", "Order Date" };
+    private String headerColumn[] = new String[] { "Order ID", "Customer Name " ,"Phone Number","Address", "Order Date","Status" };
 
     public Object[][] getData() {
         return getTableData(VIEWTABLE);
