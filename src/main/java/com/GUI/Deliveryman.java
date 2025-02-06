@@ -80,7 +80,7 @@ public class Deliveryman extends JFrame implements ActionListener{
         super("Deliveryman Panel");
         setSize(900, 600);
         setLocationRelativeTo(null);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setResizable(false);
  
         panel = new JPanel(new BorderLayout());
@@ -132,8 +132,6 @@ public class Deliveryman extends JFrame implements ActionListener{
         exitButton = new JButton("Exit");
         exitButton.addActionListener(e -> {
             dispose();
-            Welcome wlc = new Welcome();
-            wlc.setVisible(true);
         });
         panel.add(exitButton, BorderLayout.SOUTH);
  

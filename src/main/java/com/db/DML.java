@@ -21,7 +21,20 @@ public class DML extends conn {
     // adds data
     public int addToCustomerTable(String name, String username, String gender, String phone, String dob, String addr,
             Component parentComponent) {
-        String dataInsertion = "INSERT INTO CUSTOMER(CUSTOMER_ID,NAME,GENDER,PHONE,DOB,ADDRESS) VALUES(?, ?,?,?,TO_DATE(?,'DD/MM/YY'),?)";
+                String dataInsertion ;
+                String db;
+                try {
+                    db = DBcon().getMetaData().getDatabaseProductName();
+                 } catch (Exception e) {
+                    db = "MySQL";
+                }
+                if(db.equals("MySQL")){
+                    dataInsertion = "INSERT INTO CUSTOMER(CUSTOMER_ID,NAME,GENDER,PHONE,DOB,ADDRESS) VALUES(?, ?,?,?,STR_TO_DATE(?, '%d/%m/%y'),?)";
+                }
+                else{
+                    dataInsertion = "INSERT INTO CUSTOMER(CUSTOMER_ID,NAME,GENDER,PHONE,DOB,ADDRESS) VALUES(?, ?,?,?,TO_DATE(?,'DD/MM/YY'),?)";
+                }
+        
         String checkExisting = "SELECT a.username, c.PHONE FROM auth a, customer c WHERE (a.CUSTOMER_ID = c.CUSTOMER_ID) and (a.username = ? or c.PHONE = ?)";
 
         PreparedStatement pstmt1 = super.runStatement(checkExisting);
